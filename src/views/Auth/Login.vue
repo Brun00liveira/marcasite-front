@@ -31,7 +31,7 @@
                                     </div>
                                 </div>
                                 <div class="text-end">
-                                    <button type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-block mb-4">Acessar</button>
+                                    <router-link to="/home"> <button type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-block mb-4">Acessar</button></router-link>
                                 </div>
                                 <div class="text-center">
                                     <p>Não é nosso usuário? <router-link to="/create">Crie uma conta</router-link></p>

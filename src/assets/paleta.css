@@ -1,0 +1,35 @@
+
+:root {
+    --color1: #1f1f20;
+    --color2: #2b4c7e;
+    --color3: #567ebb;
+    --color4: #606d80;
+    --color5: #dce0e6;
+  }
+  
+  body {
+    background-color: var(--color5);
+    color: var(--color5);
+  }
+  
+  .navbar {
+    background-color: var(--color2);
+  }
+
+  span, ul, li, i{
+    color: var(--color5);
+  }
+
+  .nav-link{
+    color: var(--color5);
+  }
+
+  .navbar-brand{
+    margin-left: 10px;
+  }
+
+  .user-dropdown{
+    margin-right: 10px;
+    margin-left: 10px;
+  }
+

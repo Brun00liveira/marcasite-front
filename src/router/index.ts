@@ -5,17 +5,17 @@ const router = createRouter({
   routes: [
     {
       path: '', 
-      component: () => import('@/layouts/Auth/Login.vue'), 
+      component: () => import('@/views/Auth/Login.vue'), 
   }, 
 
   {
     path: '/create', 
-    component: () => import('@/layouts/Auth/Register.vue'), 
+    component: () => import('@/views/Auth/Register.vue'), 
 }, 
 
 {
   path: '/forgot-password', 
-  component: () => import('@/layouts/Auth/ForgotPassword.vue'), 
+  component: () => import('@/views/Auth/ForgotPassword.vue'), 
 }, 
   ],
 })

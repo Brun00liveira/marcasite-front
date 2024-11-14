@@ -30,9 +30,9 @@
                                         <router-link to="/forgot-password"> <a href="#!">Esqueceu a senha?</a></router-link>
                                     </div>
                                 </div>
-
-                                <button type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-block mb-4">Acessar</button>
-
+                                <div class="text-end">
+                                    <button type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-block mb-4">Acessar</button>
+                                </div>
                                 <div class="text-center">
                                     <p>Não é nosso usuário? <router-link to="/create">Crie uma conta</router-link></p>
                                 </div>

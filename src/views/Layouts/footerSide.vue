@@ -1,9 +1,10 @@
 <template>
-  <footer class="body text-light py-5 mt-5 main-content">
-    <div class="container">
+  <footer class="body text-light py-5 mt-5 main-content d-none">
+    
+    <div class="container ">
       <h5>Ficou com alguma dúvida? Entre em contato com o <a href="">Suporte</a></h5>
       
-      <div class="row mt-5">
+      <div class="row mt-5  ">
         <div class="col-12 col-md-6 col-lg-3">
           <div class="text-start mb-3">
             <i class="fas fa-book fa-2x"></i>

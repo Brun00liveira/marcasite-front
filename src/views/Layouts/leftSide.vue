@@ -58,7 +58,7 @@
                     </router-link>
                 </li>
                 <li>
-                    <router-link to="/courses" class="nav-link align-middle px-0 mb-2">
+                    <router-link to="/admin/categories" class="nav-link align-middle px-0 mb-2">
                         <i class="fa-solid fa-layer-group" style="margin-right: 8px;"></i>
                         <span class="ms-1 d-none d-sm-inline">Categorias</span>
                     </router-link>

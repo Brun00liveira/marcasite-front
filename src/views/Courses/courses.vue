@@ -1,7 +1,7 @@
 <template>
     <div class="row">
-        <div class="col-8 mx-5 mt-5">
-            <h1 class="text topic">Meus Cursos</h1>
+        <div class="col-8">
+            <h1 class="text topic">Cursos</h1>
         
             <div class="row mt-5">
                 <!-- Cards (Lado a Lado) -->
@@ -136,7 +136,7 @@
                 </div>
                 <h5 class="text-dark mt-4">Preço</h5>
 
-                <form class="">
+                <div class="">
                     <div class="form-group">
                         <label for="priceRange" class="form-label">Preço</label>
                         <input type="range" class="form-range" id="priceRange" min="0" max="1000" step="10" value="500">
@@ -146,13 +146,13 @@
                             <span id="priceMax" class="text">R$ 1000</span>
                         </div>
                     </div>
-                </form>
+                </div>
 
             </form>
 
             <h4 class="text-dark mt-4">Professores</h4>
 
-            <form class="mt-4">
+            <div class="mt-4">
             <div class="card mt-3" style="width: 18rem;">
                 <div class="d-flex justify-content-center mt-3">
                     <img src="https://via.placeholder.com/50" alt="User" class="img-fluid rounded-circle" style="width: 80px; height: 80px;">
@@ -182,7 +182,7 @@
                     <small class="card-text emphasis">20 cursos</small>
                 </div>
             </div>
-        </form>
+        </div>
 
         </div>
 

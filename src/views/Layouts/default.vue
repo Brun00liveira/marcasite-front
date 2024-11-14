@@ -4,8 +4,10 @@
     <div class="container-fluid flex-grow-1">
       <div class="row flex-nowrap h-100">
         <navSide />
-        <main class="col p-4 main-content">
+        <main class="col p-4 main-content ">
+          <div class="container mt-5">
           <router-view />
+          </div>
         </main>
        
       </div>

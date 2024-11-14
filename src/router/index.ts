@@ -43,8 +43,35 @@ const routes = [
         component: () => import('@/views/Courses/courses.vue'),
         
       },
+
     ],
   },
+  {
+    path: '/admin',
+    component: DefaultLayout,
+    children: [
+      {
+        path: '',
+        redirect: 'dashboard', // Redireciona para /admin/dashboard se acessar apenas "/admin"
+      },
+      {
+        path: 'dashboard',
+        name: 'AdminDashboard',
+        component: () => import('@/views/Admin/dashboard.vue'),
+      },
+      // {
+      //   path: 'users',
+      //   name: 'AdminUsers',
+      //   component: () => import('@/views/Admin/users.vue'),
+      // },
+      // {
+      //   path: 'settings',
+      //   name: 'AdminSettings',
+      //   component: () => import('@/views/Admin/settings.vue'),
+      // },
+    ],
+  },
+  
 
   // Rota 404
   {

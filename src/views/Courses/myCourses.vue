@@ -1,5 +1,5 @@
 <template>
-    <div class="mx-5 mt-5">
+    <div>
       <div class="row align-items-center">
         <h1 class="text topic">Meus Cursos</h1>
   

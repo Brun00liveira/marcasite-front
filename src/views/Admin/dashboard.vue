@@ -2,7 +2,7 @@
   <div class="container">
   <h1 class="text topic">Dashboard</h1>
     <div class="row g-4 mb-4 mt-5">
-      <div class="col-6 col-md-4">
+      <div class="col-12 col-md-4">
         <div class="card p-3 shadow-sm">
           <div class="card-body text-center">
             <h5 class="card-title">Usuários Ativos</h5>
@@ -11,7 +11,7 @@
         </div>
       </div>
 
-      <div class="col-6 col-md-4">
+      <div class="col-12 col-md-4">
         <div class="card p-3 shadow-sm">
           <div class="card-body text-center">
             <h5 class="card-title">Usuários Inativos</h5>
@@ -20,7 +20,7 @@
         </div>
       </div>
 
-      <div class="col-6 col-md-4">
+      <div class="col-12 col-md-4">
         <div class="card p-3 shadow-sm">
           <div class="card-body text-center">
             <h5 class="card-title">Cursos</h5>
@@ -31,7 +31,7 @@
     </div>
 
     <div class="row g-4 mb-4">
-      <div class="col-12 col-md-6">
+      <div class="col-12 col-md-6" style="margin-top: 40px;">
           <div class="card p-3 shadow-sm mb-4">
           <div class="card-body text-center">
             <h5 class="card-title">Pagantes</h5>
@@ -62,9 +62,17 @@
       </div>
       <div class="col-12 col-sm-12 col-lg-6 col-md-6">
         <div class="card p-3 shadow-sm">
-          <h5 class="card-title">Usuários Ativos</h5>
+          <h5 class="card-title">Users por Categoria</h5>
           <div class="card-body">
             <apexchart type="bar" :options="barChartOptions" :series="barSeries" />
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-sm-12 col-lg-6 col-md-6">
+        <div class="card p-3 shadow-sm">
+          <h5 class="card-title">Cursos por Categoria</h5>
+          <div class="card-body">
+            <apexchart type="bar" :options="barCoursesOptions" :series="barCoursesSeries" />
           </div>
         </div>
       </div>
@@ -99,7 +107,28 @@ const chartOptions = ref({
 
 const barSeries = ref([
   {
-    name: 'Usuários Ativos',
+    name: 'Usuários por curso',
+    data: [120, 90, 150, 200, 180]
+  }
+
+]);
+
+const barCoursesOptions = ref({
+  chart: { type: 'bar' },
+  xaxis: {
+    categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May']
+  },
+
+  plotOptions: {
+    bar: {
+      columnWidth: '50%',
+    }
+  }
+});
+
+const barCoursesSeries = ref([
+  {
+    name: 'Cursos por Categoria',
     data: [120, 90, 150, 200, 180]
   }
 

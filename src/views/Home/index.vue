@@ -1,9 +1,12 @@
 <template>
-    <navTopSide/>
-    <navSide/>
-</template>
-
-<script setup lang="ts">
-    import navSide from '@/views/Layouts/nav-left-side.vue'; 
-    import navTopSide from '@/views/Layouts/nav-top-side.vue'; 
-</script>
+    <div class="dropdown">
+      <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+        Dropdown button
+      </button>
+      <ul class="dropdown-menu">
+        <li><a class="dropdown-item" href="#">Action</a></li>
+        <li><a class="dropdown-item" href="#">Another action</a></li>
+        <li><a class="dropdown-item" href="#">Something else here</a></li>
+      </ul>
+    </div>
+  </template>

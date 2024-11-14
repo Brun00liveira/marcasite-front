@@ -46,13 +46,13 @@
                     </router-link>
                 </li>
                 <li>
-                    <router-link to="/my-courses" class="nav-link align-middle px-0 mb-2">
+                    <router-link to="/admin/courses" class="nav-link align-middle px-0 mb-2">
                         <i class="fa-solid fa-chalkboard-user" style="margin-right: 10px;"></i>
                         <span class="d-none d-sm-inline">Cursos</span>
                     </router-link>
                 </li>
                 <li>
-                    <router-link to="/courses" class="nav-link align-middle px-0 mb-2">
+                    <router-link to="/admin/users" class="nav-link align-middle px-0 mb-2">
                         <i class="fa-solid fa-user" style="margin-right: 8px;"></i>
                         <span class="ms-1 d-none d-sm-inline">Usuários</span>
                     </router-link>

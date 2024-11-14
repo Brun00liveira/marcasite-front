@@ -59,16 +59,16 @@ const routes = [
         name: 'AdminDashboard',
         component: () => import('@/views/Admin/dashboard.vue'),
       },
-      // {
-      //   path: 'users',
-      //   name: 'AdminUsers',
-      //   component: () => import('@/views/Admin/users.vue'),
-      // },
-      // {
-      //   path: 'settings',
-      //   name: 'AdminSettings',
-      //   component: () => import('@/views/Admin/settings.vue'),
-      // },
+      {
+        path: 'courses',
+        name: 'AdminCourses',
+        component: () => import('@/views/Admin/courses.vue'),
+      },
+      {
+        path: 'users',
+        name: 'AdminUsers',
+        component: () => import('@/views/Admin/users.vue'),
+      },
     ],
   },
   

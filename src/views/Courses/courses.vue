@@ -113,6 +113,20 @@
                         Todos
                     </label>
                 </div>
+                <h5 class="text-dark mt-4">Preço</h5>
+
+                <form class="">
+                    <div class="form-group">
+                        <label for="priceRange" class="form-label">Preço</label>
+                        <input type="range" class="form-range" id="priceRange" min="0" max="1000" step="10" value="500">
+                        <div class="d-flex justify-content-between">
+                            <span id="priceMin" class="text">R$ 0</span>
+                            <span id="currentPrice" class="text">R$ 500</span>
+                            <span id="priceMax" class="text">R$ 1000</span>
+                        </div>
+                    </div>
+                </form>
+
             </form>
 
             <h4 class="text-dark mt-4">Professores</h4>

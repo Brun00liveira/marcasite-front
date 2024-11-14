@@ -25,7 +25,7 @@
                     </li>
 
                     <li>
-                        <a href="#submenu2" data-bs-toggle="collapse" class="nav-link px-0 align-middle mb-2">
+                        <a href="https://wa.me/5512991143357" class="nav-link px-0 align-middle mb-2" target="_blank">
                             <i class="fa-solid fa-phone" style="margin-right: 8px;"></i>
                             <span class="ms-1 d-none d-sm-inline">Suporte</span>
                         </a>

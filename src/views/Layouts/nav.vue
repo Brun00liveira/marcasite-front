@@ -53,8 +53,6 @@
                 </ul>
               </div>
             </li>
-
-            <!-- Perfil do Usuário -->
             <li class="nav-item">
               <div class="dropdown mx-2">
                 <div class="dropdown-toggle custom-border" type="button" data-bs-toggle="dropdown" aria-expanded="false">

@@ -7,7 +7,15 @@
     --color5: #dce0e6;
   }
   
+  .text{
+    color: var(--color1);
+  }
   body {
+    background-color: var(--color5);
+    color: var(--color5);
+  }
+
+  .background-footer {
     background-color: var(--color5);
     color: var(--color5);
   }
@@ -33,3 +41,28 @@
     margin-left: 10px;
   }
 
+  .emphasis{
+    color: var(--color2);
+  }
+
+  .topic{
+    font-weight: bolder;
+  }
+
+  .footer-color{
+    color: var(--color4);
+  }
+
+  .main-content {
+    margin-top: 45px;
+    margin-left: 170px;
+    flex-grow: 1;
+  }
+  
+  @media (max-width: 575px) {
+    .main-content {
+      margin-top: 40px; 
+      margin-left: 35px; 
+      padding: 10px; 
+    }
+  }

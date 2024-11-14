@@ -7,14 +7,20 @@
         <main class="col p-4 main-content">
           <router-view />
         </main>
+       
       </div>
     </div>
+    
+    <footerSide />
   </div>
+
 </template>
   
 <script setup lang="ts">
-import navSide from '@/views/Layouts/nav-left-side.vue';
-import navTopSide from '@/views/Layouts/nav-top-side.vue';
+import navSide from '@/views/Layouts/leftSide.vue';
+import navTopSide from '@/views/Layouts/nav.vue';
+import footerSide from '@/views/Layouts/footerSide.vue';
+
 </script>
 
 <style scoped>

@@ -37,7 +37,7 @@
                                         <button type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-block mb-4">Salvar</button>
                                     </div>
                                     <div class="text-end col-6">
-                                            <router-link to="/"><button type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-success btn-block mb-4">Voltar ao login</button></router-link>
+                                            <router-link to="/login"><button type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-success btn-block mb-4">Voltar ao login</button></router-link>
                                     </div>
                                 </div>
 

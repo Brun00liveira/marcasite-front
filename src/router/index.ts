@@ -1,20 +1,20 @@
 // src/router/index.js ou src/router.ts
 import { createRouter, createWebHistory } from 'vue-router';
-import DefaultLayout from '@/views/Layouts/default-layout.vue';
+import DefaultLayout from '@/views/Layouts/default.vue';
 
 const routes = [
   // Rotas de Autenticação
   {
     path: '/login',
-    component: () => import('@/views/Auth/Login.vue'),
+    component: () => import('@/views/Auth/login.vue'),
   },
   {
     path: '/create',
-    component: () => import('@/views/Auth/Register.vue'),
+    component: () => import('@/views/Auth/register.vue'),
   },
   {
     path: '/forgot-password',
-    component: () => import('@/views/Auth/ForgotPassword.vue'),
+    component: () => import('@/views/Auth/forgotPassword.vue'),
   },
 
   // Rotas protegidas usando o layout padrão
@@ -30,6 +30,18 @@ const routes = [
         path: 'home',
         name: 'Home',
         component: () => import('@/views/Home/index.vue'),
+      },
+      {
+        path: 'my-courses',
+        name: 'MyCourses',
+        component: () => import('@/views/Courses/myCourses.vue'),
+        
+      },
+      {
+        path: 'courses',
+        name: 'Courses',
+        component: () => import('@/views/Courses/courses.vue'),
+        
       },
     ],
   },

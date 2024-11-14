@@ -17,7 +17,7 @@
                   </div>
                   <button type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-block mb-4">Enviar link de recuperação</button>
                   <div class="text-center mt-5">
-                    <p>Já tem uma conta? <router-link to="/">Faça login</router-link></p>
+                    <p>Já tem uma conta? <router-link to="/login">Faça login</router-link></p>
                   </div>
                 </form>
               </div>

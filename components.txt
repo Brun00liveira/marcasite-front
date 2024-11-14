@@ -1,0 +1,1 @@
+telefone, Senha, Lateral imagem,  button primary e secondary, inputs

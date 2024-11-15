@@ -97,14 +97,18 @@ const { showSuccessAlert, showErrorAlert } = useAlert();
 const handleSubmit = async () => {
   try {
     const response = await AuthService.login(loginData.value);
-    localStorage.setItem("auth_token", response.token);
+    if (response.token) {  
+      localStorage.setItem("auth_token", response.token);
+    } else {
+      console.error('Token não encontrado');
+    }
+   
     showSuccessAlert("Conta logada com sucesso!", "/home");
   } catch (error) {
     if (error instanceof AxiosError) {
       const errorMessage = error.response?.data.message || "Erro desconhecido";
       showErrorAlert(errorMessage);
 
-      // Verifica erros específicos de campo
       const emailErrors = error.response?.data.errors?.email;
       if (emailErrors && emailErrors.length > 0) {
         showErrorAlert(emailErrors[0]);

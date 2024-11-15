@@ -84,7 +84,7 @@
 
 <script lang="ts" setup>
 import { onMounted, ref } from 'vue';
-import { useUserStore } from '@/stores/UserStore'; // Importe o store
+import { useUserStore } from '@/stores/UserStore';
 
 const registerData = ref({
   name: '',
@@ -102,44 +102,30 @@ const registerData = ref({
 const userStore = useUserStore();
 
 onMounted(async () => {
-  await userStore.findById(); // Buscar o usuário ao montar o componente
+  await userStore.findUserById();
 
-  // Preencher os campos com os dados do usuário, se disponíveis
-  registerData.value.name = userStore.user?.name || '';
-  registerData.value.email = userStore.user?.email || '';
-  registerData.value.phone = userStore.user?.phone || '';
-  registerData.value.cpf = userStore.user?.cpf || '';
-  registerData.value.birth_date = userStore.user?.birth_date || '';
-  registerData.value.address = userStore.user?.address || '';
-  registerData.value.city = userStore.user?.city || '';
-  registerData.value.state = userStore.user?.state || '';
-  registerData.value.cep = userStore.user?.cep || '';
-  registerData.value.country = userStore.user?.country || '';  // Preenchendo o país
+  const user = userStore.user;
+  if (user) {
+    registerData.value.name = user.name || '';
+    registerData.value.email = user.email || '';
+    registerData.value.phone = user.phone || '';
+    registerData.value.cpf = user.cpf || '';
+    registerData.value.birth_date = user.birth_date || '';
+    registerData.value.address = user.address || '';
+    registerData.value.city = user.city || '';
+    registerData.value.state = user.state || '';
+    registerData.value.cep = user.cep || '';
+    registerData.value.country = user.country || '';
+  }
 });
 
-
-// Função para salvar as mudanças
 const saveChanges = async () => {
   try {
-    const updateData = {
-      name: registerData.value.name,
-      email: registerData.value.email,
-      phone: registerData.value.phone,
-      cpf: registerData.value.cpf,
-      birth_date: registerData.value.birth_date,
-      address: registerData.value.address,
-      city: registerData.value.city,
-      state: registerData.value.state,
-      cep: registerData.value.cep,
-      country: registerData.value.country,  // Adicionando o campo country
-    };
+    const updateData = { ...registerData.value }; 
 
-    // Atualizar os dados no userStore
-    await userStore.update(updateData);
+    await userStore.updateUser(updateData); 
   } catch (error) {
     console.error('Erro ao salvar mudanças:', error);
   }
 };
-
-
 </script>

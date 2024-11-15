@@ -3,7 +3,8 @@ import API from "@/config/http-auth";
 import { 
     type Register,
     type Login,
-    type ForgotPassword
+    type ForgotPassword,
+    type ResetPassword
 } from "@/interfaces/AuthInterface";
 
 class AuthService {
@@ -18,6 +19,10 @@ class AuthService {
 
     forgotPassword(forgotPasswordData: ForgotPassword): Promise<ForgotPassword> {
         return API.post('/password/forgot', forgotPasswordData).then(response => response.data);
+    }
+
+    resetPassword(resetPasswordData: ResetPassword): Promise<ResetPassword> {
+        return API.post('/password/reset', resetPasswordData).then(response => response.data);
     }
 }
 

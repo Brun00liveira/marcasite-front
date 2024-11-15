@@ -1,7 +1,8 @@
 import { 
     type Register,
     type Login,
-    type ForgotPassword
+    type ForgotPassword,
+    type ResetPassword
 } from "@/interfaces/AuthInterface";
 import authService from "@/services/AuthService";
 import { defineStore } from "pinia";
@@ -12,6 +13,7 @@ export const useAuthStore = defineStore('authStore', () => {
     const register: Ref<Register | null> = ref<Register | null>(null);
     const credentials: Ref<Login | null> = ref<Login | null>(null);
     const forgotPasswordEmail: Ref<ForgotPassword | null> = ref<ForgotPassword | null>(null);
+    const resetPasswordEmail: Ref<ResetPassword | null> = ref<ResetPassword | null>(null);
 
 
     async function create(registerData: Register): Promise<void> {
@@ -41,9 +43,19 @@ export const useAuthStore = defineStore('authStore', () => {
         }
     }
 
+    async function resetPassword(resetPasswordData: ResetPassword): Promise<void> {
+        try {
+            const response = await authService.resetPassword(resetPasswordData);
+            resetPasswordEmail.value = response;
+        } catch (error) {
+            console.error("Erro ao logar", error);
+        }
+    }
+
     return {
         create,
         login,
-        forgotPassword
+        forgotPassword,
+        resetPassword
     };
 });

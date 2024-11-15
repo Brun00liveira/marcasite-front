@@ -6,6 +6,7 @@ class CourseService {
     findAll(): Promise<ApiCoursesResponse> {
         return APITOKEN.get('/courses').then(response => response.data);
     }
+
 }
 
 export default new CourseService();

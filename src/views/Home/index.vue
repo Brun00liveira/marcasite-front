@@ -23,7 +23,7 @@
                 <!-- Usando v-for para iterar sobre os cursos -->
                 <div v-for="course in userCourse.courses" :key="course.id" class="col-12 col-sm-6 col-md-4 col-lg-4 mb-4">
                     <div class="card" style="width: 100%;">
-                        <img :src="course.photo" class="card-img-top" alt="Curso imagem">
+                        <img src="/images/Home/notebook.png" class="card-img-top" alt="Curso imagem">
                         <div class="card-body">
                             <h5 class="card-title">{{ course.title }}</h5>
                             <p class="card-text">{{ course.description }}</p>
@@ -44,6 +44,5 @@ const userCourse = useCourseStore();
 
 onMounted(async () => {
    await userCourse.findAllCourses();
-   console.log(userCourse.courses);
 });
 </script>

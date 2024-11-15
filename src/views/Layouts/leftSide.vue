@@ -69,11 +69,12 @@
                         <span class="ms-1 d-none d-sm-inline">Configuração</span>
                     </router-link>
                 </li>
+                <a href="#" @click="logout" class="nav-link px-0 align-middle">
+                    <i class="fa-solid fa-door-open"></i> <span class="ms-1 d-none d-sm-inline">Sair</span>
+                </a>
                 
             </ul>
-            <a href="#submenu3" data-bs-toggle="collapse" class="nav-link px-0 align-middle">
-                <i class="fa-solid fa-door-open"></i> <span class="ms-1 d-none d-sm-inline">Sair</span> </a>
-         
+           
         </div>
     </div>
 </template>
@@ -81,3 +82,14 @@
 @import '@/assets/paleta.css';
 
 </style>
+<script setup lang="ts">
+import { useAuthStore } from "@/stores/AuthStore";
+
+const authStore = useAuthStore();
+
+function logout() {
+    authStore.logout();
+}
+</script>
+
+

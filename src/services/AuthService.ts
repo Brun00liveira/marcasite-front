@@ -1,4 +1,5 @@
-import API from "@/config/http-auth";
+import API from "@/config/http-common";
+import APITOKEN from "@/config/http-common";
 
 import { 
     type Register,
@@ -23,6 +24,12 @@ class AuthService {
 
     resetPassword(resetPasswordData: ResetPassword): Promise<ResetPassword> {
         return API.post('/password/reset', resetPasswordData).then(response => response.data);
+    }
+
+    logout(): Promise<void> {
+        return APITOKEN.post('/logout').then(() => {
+            localStorage.removeItem('auth_token');
+        });
     }
 }
 

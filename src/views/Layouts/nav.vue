@@ -63,10 +63,10 @@
               <ul class="dropdown-menu dropdown-menu-end">
                 <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#perfilModal">Perfil</a></li>
                 <li><a class="dropdown-item" href="#">Configuração</a></li>
-                <router-link to="/login" style="text-decoration: none;">
-                    <li class="dropdown-item">Sair</li>
-                </router-link>
-                
+              
+                 <a href="#" @click="logout" style="text-decoration: none;">
+                  <li class="dropdown-item">Sair</li>
+                </a>
 
               </ul>
             </div>
@@ -79,5 +79,11 @@
 </template>
 <script setup lang="ts">
 import modalProfile from '@/views/User/modalProfile.vue';
+import { useAuthStore } from "@/stores/AuthStore";
 
+const authStore = useAuthStore();
+
+function logout() {
+    authStore.logout();
+}
 </script>

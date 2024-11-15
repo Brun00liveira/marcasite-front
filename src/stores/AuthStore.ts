@@ -52,10 +52,21 @@ export const useAuthStore = defineStore('authStore', () => {
         }
     }
 
+    async function logout(): Promise<void> {
+        try {
+            await authService.logout();
+           
+            window.location.href = '/login';  
+        } catch (error) {
+            console.error("Erro ao fazer logout", error);
+        }
+    }
+
     return {
         create,
         login,
         forgotPassword,
-        resetPassword
+        resetPassword,
+        logout
     };
 });

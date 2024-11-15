@@ -1,30 +1,32 @@
-// src/router/index.js ou src/router.ts
 import { createRouter, createWebHistory } from 'vue-router';
 import DefaultLayout from '@/views/Layouts/default.vue';
 
 const routes = [
-  // Rotas de Autenticação
+
   {
     path: '/login',
-    component: () => import('@/views/Auth/login.vue'),
+    component: () => import('@/views/Auth/Login.vue'),
   },
   {
     path: '/create',
-    component: () => import('@/views/Auth/register.vue'),
+    component: () => import('@/views/Auth/Register.vue'),
   },
   {
     path: '/forgot-password',
-    component: () => import('@/views/Auth/forgotPassword.vue'),
+    component: () => import('@/views/Auth/ForgotPassword.vue'),
+  },
+  {
+    path: '/reset-password',
+    component: () => import('@/views/Auth/ResetPassword.vue'),
   },
 
-  // Rotas protegidas usando o layout padrão
   {
     path: '/',
     component: DefaultLayout,
     children: [
       {
         path: '',
-        redirect: 'home', // Redireciona para /home se acessar apenas "/"
+        redirect: 'home',
       },
       {
         path: 'home',
@@ -35,24 +37,22 @@ const routes = [
         path: 'my-courses',
         name: 'MyCourses',
         component: () => import('@/views/Courses/myCourses.vue'),
-        
       },
       {
         path: 'courses',
         name: 'Courses',
         component: () => import('@/views/Courses/courses.vue'),
-        
       },
-
     ],
   },
+  
   {
     path: '/admin',
     component: DefaultLayout,
     children: [
       {
         path: '',
-        redirect: 'dashboard', // Redireciona para /admin/dashboard se acessar apenas "/admin"
+        redirect: 'dashboard',
       },
       {
         path: 'dashboard',
@@ -76,9 +76,7 @@ const routes = [
       },
     ],
   },
-  
 
-  // Rota 404
   {
     path: '/:catchAll(.*)',
     redirect: '/',
@@ -88,6 +86,16 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes,
+});
+
+router.beforeEach((to, from, next) => {
+  const token = localStorage.getItem('auth_token');
+  if (to.path !== '/login' && to.path !== '/create' && to.path !== '/forgot-password') {
+    if (!token) {
+      return next('/login');
+    }
+  }
+  next();
 });
 
 export default router;

@@ -3,8 +3,14 @@ import { type ApiCoursesResponse } from "@/interfaces/CousesInterface";
 
 class CourseService {
     
-    findAll(): Promise<ApiCoursesResponse> {
-        return APITOKEN.get('/courses').then(response => response.data);
+    findAll(page: number = 1, perPage: number = 10, name: string | null = null): Promise<ApiCoursesResponse> {
+        return APITOKEN.get('/courses', {
+            params: {
+                page, 
+                perPage,
+                name,
+            }
+        }).then(response => response.data);
     }
 
 }

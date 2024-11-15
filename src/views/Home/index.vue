@@ -5,19 +5,24 @@
             <h1 class="text">Garanta seu Futuro com os cursos da <strong class="emphasis">MarcaSite Cursos!</strong> </h1>
             
             <div class="mt-5">
-                <form class="d-flex" role="search">
-                <input class="form-control me-2" type="search" placeholder="Pesquise por um curso" aria-label="Search">
+                <form @submit.prevent="searchCourses" class="d-flex" role="search">
+                <input
+                    v-model="searchQuery"
+                    class="form-control me-2"
+                    type="search"
+                    placeholder="Pesquise por um curso"
+                    aria-label="Search"
+                />
                 <button class="btn btn-outline-primary" type="submit">Search</button>
                 </form>
             </div>
-            </div>
+        </div>
             <div class="col-12 col-md-4 col-lg-6 d-none d-md-block">
             <img src="/images/Home/notebook.png" alt="Imagem de Login" class="img-fluid w-100 h-100 rounded">
             </div>
         </div>
         <div class="row align-items-center">
             <h1 class="text topic"> Alguns Lançamentos </h1>
-
             <!-- Cards Responsivos -->
             <div class="row mt-5">
                 <!-- Usando v-for para iterar sobre os cursos -->
@@ -37,12 +42,20 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted } from 'vue';
+import { ref, onMounted } from 'vue';
 import { useCourseStore } from '@/stores/CourseStore';
+import { useRouter } from 'vue-router';
 
+const searchQuery = ref<string>('');
+const router = useRouter();
 const userCourse = useCourseStore();
 
+const searchCourses = async () => {
+  await userCourse.findAllCourses(1, 10, searchQuery.value);
+  router.push({ path: '/courses', query: { search: searchQuery.value } });
+};
+
 onMounted(async () => {
-   await userCourse.findAllCourses();
+  await userCourse.findAllCourses(1, 10);
 });
 </script>

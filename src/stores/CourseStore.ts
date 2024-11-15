@@ -9,17 +9,17 @@ export const useCourseStore = defineStore('courseStore', () => {
 
   const courses = ref<Courses[]>([]);
   
-  async function findAllCourses(): Promise<void> {
+  // Função para buscar cursos com filtro de nome
+  async function findAllCourses(page: number = 1, perPage: number = 10, name: string | null = null): Promise<void> {
     try {
-      const response = await CourseService.findAll();
-    
+      const response = await CourseService.findAll(page, perPage, name); // Passando o nome para o serviço
       courses.value = response.data.data;
 
     } catch (error) {
       showErrorAlert('Failed to fetch courses');
     }
   }
-     
+
   return {
     courses,
     findAllCourses,

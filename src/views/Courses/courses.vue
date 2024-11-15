@@ -4,7 +4,7 @@
             <h1 class="text topic">Cursos</h1>
             <div class="row mt-5">
                 <!-- Usando v-for para iterar sobre os cursos -->
-                <div v-for="course in userCourse.courses" :key="course.id" class="col-12 col-sm-6 col-md-4 col-lg-4 mb-4">
+                <div v-for="course in filteredCourses " :key="course.id" class="col-12 col-sm-6 col-md-4 col-lg-4 mb-4">
                     <div class="card" style="width: 100%;">
                         <img src="/images/Home/notebook.png" class="card-img-top" alt="Curso imagem">
                         <div class="card-body">
@@ -109,14 +109,25 @@
 
     </div>
  </template>
- <script lang="ts" setup>
- import { onMounted } from 'vue';
- import { useCourseStore } from '@/stores/CourseStore';
  
- const userCourse = useCourseStore();
- 
- onMounted(async () => {
-    await userCourse.findAllCourses();
-  
- });
- </script>
+<script lang="ts" setup>
+import { onMounted, computed } from 'vue';
+import { useCourseStore } from '@/stores/CourseStore';
+import { useRoute } from 'vue-router';
+
+const userCourse = useCourseStore();
+const route = useRoute();
+
+onMounted(async () => {
+  await userCourse.findAllCourses();
+});
+
+// Computed property para filtrar os cursos com base no parâmetro de busca
+const filteredCourses = computed(() => {
+  const searchTerm = route.query.search?.toString().toLowerCase() || '';
+  return userCourse.courses.filter(course => 
+    course.title.toLowerCase().includes(searchTerm) || 
+    course.description.toLowerCase().includes(searchTerm)
+  );
+});
+</script>

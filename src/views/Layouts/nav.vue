@@ -21,12 +21,19 @@
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ms-auto align-items-center">
           <!-- Campo de Busca -->
-          <li class="nav-item">
-            <form class="d-flex mx-5" role="search">
-              <input class="form-control me-2" type="search" placeholder="Pesquise por um curso" aria-label="Search">
-              <button class="btn btn-outline-light" type="submit">Procurar</button>
-            </form>
-          </li> 
+         
+          <div class="nav-item">
+                <form @submit.prevent="searchCourses" class="d-flex mx-5" role="search">
+                <input
+                    v-model="searchQuery"
+                    class="form-control me-2"
+                    type="search"
+                    placeholder="Pesquise por um curso"
+                    aria-label="Search"
+                />
+                <button class="btn btn-outline-primary" type="submit">Search</button>
+                </form>
+            </div>
 
           <!-- Carrinho -->
           <li class="nav-item">
@@ -80,6 +87,18 @@
 <script setup lang="ts">
 import modalProfile from '@/views/User/modalProfile.vue';
 import { useAuthStore } from "@/stores/AuthStore";
+import { useCourseStore } from '@/stores/CourseStore';
+import { useRouter } from 'vue-router';
+import { ref, onMounted } from 'vue';
+
+const searchQuery = ref<string>('');
+const router = useRouter();
+const userCourse = useCourseStore();
+
+const searchCourses = async () => {
+  await userCourse.findAllCourses(1, 10, searchQuery.value);
+  router.push({ path: '/courses', query: { search: searchQuery.value } });
+};
 
 const authStore = useAuthStore();
 
@@ -87,3 +106,4 @@ function logout() {
     authStore.logout();
 }
 </script>
+

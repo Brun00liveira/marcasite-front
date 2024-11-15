@@ -46,26 +46,28 @@
           </div>
   
           <!-- Filtro de preço -->
-          <h5 class="text-dark mt-4">Preço</h5>
-          <div>
+          <!-- Filtro de preço -->
+            <h5 class="text-dark mt-4">Preço</h5>
+            <div>
             <div class="form-group">
-              <label for="priceRange" class="form-label">Preço</label>
-              <input
+                <label for="priceRange" class="form-label">Preço</label>
+                <input
                 type="range"
                 class="form-range"
                 id="priceRange"
                 min="0"
                 max="1000"
                 step="10"
-                value="500"
-              />
-              <div class="d-flex justify-content-between">
+                v-model="selectedPrice"
+                />
+                <div class="d-flex justify-content-between">
                 <span id="priceMin" class="text">R$ 0</span>
-                <span id="currentPrice" class="text">R$ 500</span>
+                <span id="currentPrice" class="text">R$ {{ selectedPrice }}</span>
                 <span id="priceMax" class="text">R$ 1000</span>
-              </div>
+                </div>
             </div>
-          </div>
+            </div>
+
         </form>
       </div>
     </div>
@@ -75,10 +77,9 @@
   import { useCourseStore } from '@/stores/CourseStore';
   import { useCategoryStore } from '@/stores/CategoryStore';
   import { useRoute } from 'vue-router';
-  
-  // Armazenando as categorias selecionadas
+
+  const selectedPrice = ref(500);
   const selectedCategories = ref<number[]>([]);
-  
   const userCourse = useCourseStore();
   const categoryStore = useCategoryStore();
   const route = useRoute();
@@ -88,20 +89,23 @@
     await categoryStore.findAllCategory();
   });
   
-  // Computed property para filtrar os cursos com base nas categorias selecionadas e no termo de pesquisa
+  
   const filteredCourses = computed(() => {
-    const searchTerm = route.query.search?.toString().toLowerCase() || '';
-    return userCourse.courses.filter(course => {
-      const matchesSearch =
-        course.title.toLowerCase().includes(searchTerm) ||
-        course.description.toLowerCase().includes(searchTerm);
-  
-      const matchesCategory = selectedCategories.value.length
-        ? selectedCategories.value.includes(course.category_id)
-        : true;
-  
-      return matchesSearch && matchesCategory;
-    });
+  const searchTerm = route.query.search?.toString().toLowerCase() || '';
+  return userCourse.courses.filter(course => {
+    const matchesSearch =
+      course.title.toLowerCase().includes(searchTerm) ||
+      course.description.toLowerCase().includes(searchTerm);
+
+    const matchesCategory = selectedCategories.value.length
+      ? selectedCategories.value.includes(course.category_id)
+      : true;
+
+    const matchesPrice = course.price <= selectedPrice.value;
+
+    return matchesSearch && matchesCategory && matchesPrice;
   });
+});
+
   </script>
   

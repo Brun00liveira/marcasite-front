@@ -23,8 +23,6 @@
                   <p>Já tem uma conta? <router-link to="/login">Faça login</router-link></p>
                 </div>
               </form>
-              <p v-if="emailResponse" class="text-center mt-3 text-success">{{ emailResponse }}</p>
-              <p v-if="errorMessage" class="text-center mt-3 text-danger">{{ errorMessage }}</p>
             </div>
           </div>
         </div>
@@ -36,50 +34,18 @@
 <script setup lang="ts">
 import CustomInput from '@/components/CustomInput.vue';
 import { ref } from "vue";
-import { useAlert } from "@/composables/UseAlert";
-import { AxiosError } from "axios";
-import authService from "@/services/AuthService";
+import { useAuthStore } from '@/stores/AuthStore';
 
 const forgotPasswordData = ref({
   email: ""
 });
 
-const emailResponse = ref<string | null>(null);
-const errorMessage = ref<string | null>(null);
-
-const { showSuccessAlert, showErrorAlert } = useAlert();
+const authStore = useAuthStore();
 
 const handleForgotPasswordSubmit = async () => {
-  // Resetando as mensagens antes de enviar a solicitação
-  emailResponse.value = null;
-  errorMessage.value = null;
+ 
+  await authStore.forgotPassword(forgotPasswordData.value);
 
-  try {
-    // Envia a solicitação para o serviço de recuperação de senha
-    const response = await authService.forgotPassword(forgotPasswordData.value);
-
-    // Exibe a mensagem de sucesso ao usuário
-    emailResponse.value = "Email enviado com sucesso!";
-    
-    // Exibe a notificação de sucesso
-    showSuccessAlert("Email enviado com sucesso!", "/forgot-password");
-  } catch (error) {
-    // Verifica se o erro é uma instância de AxiosError
-    if (error instanceof AxiosError) {
-      const errorMessageText = error.response?.data.message || "Erro desconhecido";
-      errorMessage.value = errorMessageText;
-
-      const emailErrors = error.response?.data.errors?.email;
-      if (emailErrors && emailErrors.length > 0) {
-        errorMessage.value = emailErrors[0];
-      }
-
-      showErrorAlert("Erro no envio do Email");
-    } else {
-      // Caso não seja um erro do Axios, exibe erro genérico
-      showErrorAlert("Erro no envio do Email");
-    }
-  }
 };
 </script>
 

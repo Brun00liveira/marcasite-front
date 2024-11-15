@@ -80,10 +80,8 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
-import { useAlert } from "@/composables/UseAlert";
-import { AxiosError } from "axios";
-import AuthService from "@/services/AuthService";
+import { ref } from 'vue';
+import { useAuthStore } from '@/stores/AuthStore';
 import CustomInput from '@/components/CustomInput.vue';
 import PasswordInput from '@/components/PasswordInput.vue';
 
@@ -92,46 +90,10 @@ const loginData = ref({
   password: "",
 });
 
-const { showSuccessAlert, showErrorAlert } = useAlert();
+const authStore = useAuthStore();
 
 const handleSubmit = async () => {
-  try {
-    const response = await AuthService.login(loginData.value);
-    if (response.token) {  
-      localStorage.setItem("auth_token", response.token);
-    } else {
-      console.error('Token não encontrado');
-    }
-   
-    showSuccessAlert("Conta logada com sucesso!", "/home");
-  } catch (error) {
-    if (error instanceof AxiosError) {
-      const errorMessage = error.response?.data.message || "Erro desconhecido";
-      showErrorAlert(errorMessage);
-
-      const emailErrors = error.response?.data.errors?.email;
-      if (emailErrors && emailErrors.length > 0) {
-        showErrorAlert(emailErrors[0]);
-      }
-
-      const passwordErrors = error.response?.data.errors?.password;
-      if (passwordErrors && passwordErrors.length > 0) {
-        showErrorAlert(passwordErrors[0]);
-      }
-    } else {
-      console.error("Erro desconhecido:", error);
-      showErrorAlert("Ocorreu um erro inesperado.");
-    }
-  }
+  await authStore.login(loginData.value);
 };
 </script>
 
-<style scoped>
-.card {
-  border-radius: 10px;
-}
-label,
-p {
-  color: black;
-}
-</style>

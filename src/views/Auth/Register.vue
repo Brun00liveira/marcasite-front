@@ -42,12 +42,11 @@
 
 <script setup>
 import { ref } from 'vue';
-import { useAlert } from '@/composables/UseAlert';
-import authService from '@/services/AuthService';
 import CustomInput from '@/components/CustomInput.vue';
 import PhoneInput from '@/components/PhoneInput.vue';
 import PasswordInput from '@/components/PasswordInput.vue';
-import { AxiosError } from 'axios';
+
+import { useAuthStore } from '@/stores/AuthStore';
 
 const registerData = ref({
   name: '',
@@ -57,25 +56,9 @@ const registerData = ref({
   password_confirmation: '',
 });
 
-const { showSuccessAlert, showErrorAlert } = useAlert();
+const authStore = useAuthStore();
 
 const handleSubmit = async () => {
-  try {
-    const response = await authService.create(registerData.value);
-    showSuccessAlert('Conta criada com sucesso!', '/login');
-  } catch (error) {
-    if (error instanceof AxiosError) {
-      const errorMessage = error.response?.data.message || 'Erro desconhecido';
-      showErrorAlert(errorMessage);
-
-      const errors = error.response?.data.errors || {};
-      if (errors.email) showErrorAlert(errors.email[0]);
-      if (errors.phone) showErrorAlert(errors.phone[0]);
-      if (errors.password) showErrorAlert(errors.password[0]);
-    } else {
-      console.error('Erro desconhecido:', error);
-      showErrorAlert('Ocorreu um erro inesperado.');
-    }
-  }
+    await authStore.create(registerData.value);
 };
 </script>

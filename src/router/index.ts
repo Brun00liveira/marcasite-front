@@ -1,8 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import DefaultLayout from '@/views/Layouts/default.vue';
+import { authMiddleware } from '@/middlewares/AuthMiddleware';
 
 const routes = [
-
   {
     path: '/login',
     component: () => import('@/views/Auth/Login.vue'),
@@ -45,7 +45,7 @@ const routes = [
       },
     ],
   },
-  
+
   {
     path: '/admin',
     component: DefaultLayout,
@@ -88,14 +88,6 @@ const router = createRouter({
   routes,
 });
 
-router.beforeEach((to, from, next) => {
-  const token = localStorage.getItem('auth_token');
-  if (to.path !== '/login' && to.path !== '/create' && to.path !== '/forgot-password') {
-    if (!token) {
-      return next('/login');
-    }
-  }
-  next();
-});
+router.beforeEach(authMiddleware);
 
 export default router;

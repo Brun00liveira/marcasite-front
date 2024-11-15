@@ -63,6 +63,7 @@ import PasswordInput from '@/components/PasswordInput.vue';
 import { useAlert } from '@/composables/UseAlert';
 import authService from '@/services/AuthService';
 import { AxiosError } from 'axios';
+import { useAuthStore } from '@/stores/AuthStore';
 
 const resetData = ref({
   email: '',
@@ -70,7 +71,7 @@ const resetData = ref({
   password_confirmation: '',
   token: '', // Adicionando token
 });
-
+const authStore = useAuthStore();
 const errors = ref({
   email: '',
   password: '',
@@ -94,39 +95,9 @@ onMounted(() => {
 });
 
 const handleSubmit = async () => {
-  try {
-    // Validação da confirmação da senha
-    if (resetData.value.password !== resetData.value.password_confirmation) {
-      errors.value.password_confirmation = 'As senhas não coincidem.';
-      return;
-    }
 
-    // Limpar erros antes de enviar
-    errors.value = {};
+   await authStore.resetPassword(resetData.value);
 
-    const response = await authService.resetPassword({
-      ...resetData.value,  // Enviar email, senha, confirmação de senha e token
-    });
-
-    console.log(response);
-    showSuccessAlert('Senha redefinida com sucesso!', '/login');
-  } catch (error) {
-    if (error instanceof AxiosError) {
-      const errorMessage = error.response?.data.message || 'Erro desconhecido';
-      showErrorAlert(errorMessage);
-
-      // Erros específicos dos campos
-      const validationErrors = error.response?.data.errors || {};
-      errors.value.email = validationErrors.email ? validationErrors.email[0] : '';
-      errors.value.password = validationErrors.password ? validationErrors.password[0] : '';
-      errors.value.password_confirmation = validationErrors.password_confirmation
-        ? validationErrors.password_confirmation[0]
-        : '';
-    } else {
-      console.error('Erro desconhecido:', error);
-      showErrorAlert('Ocorreu um erro inesperado.');
-    }
-  }
 };
 </script>
 

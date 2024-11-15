@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
 import { useAlert } from "@/composables/UseAlert";
-import EnrollmentsService from "@/services/EnrollmentsService";
+import EnrollmentsService from "@/services/EnrollmentService";
 import { type Enrollment } from "@/interfaces/EnrollmentsInterface";
 
 export const useEnrollmentStore= defineStore('enrollmentStore', () => {

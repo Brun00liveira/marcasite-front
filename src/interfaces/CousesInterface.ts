@@ -1,3 +1,5 @@
+import type { Category } from "./CategoryInterface";
+
 export interface Courses {
   id: number;
   title: string;
@@ -5,6 +7,7 @@ export interface Courses {
   price: number;
   photo: string;
   is_active: number;
+  category_id: number
 }
 
 export interface ApiCoursesResponse {

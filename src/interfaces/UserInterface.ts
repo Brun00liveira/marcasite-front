@@ -1,20 +1,14 @@
 export interface Register {
-    id: number;
-    is_active: number;
     name: string;
     email: string;
-    cpf: string | null;
-    email_verified_at: string | null;
-    verification_code: string | null;
     phone: string;
+    cpf: string | null;
+    birth_date: string | null;
     address: string | null;
     city: string | null;
     state: string | null;
-    country: string | null;
     cep: string | null;
-    birth_date: string | null;
-    created_at: string;
-    updated_at: string;
+    country: string | null;
   }
 
   export interface User {
@@ -30,6 +24,7 @@ export interface Register {
     address?: string | null;
     city?: string | null;
     state?: string | null;
+    country?: string | null;
     birth_date?: string | null;
     photo?: string | null;
     verification_code?: string | null;

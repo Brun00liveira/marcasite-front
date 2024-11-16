@@ -145,11 +145,11 @@
 <script lang="ts" setup>
   // Funções de manipulação de cursos
   const editCourse = () => {
-    console.log('Editar curso');
+
   };
 
   const deleteCourse = () => {
-    console.log('Excluir curso');
+
   };
 </script>
 

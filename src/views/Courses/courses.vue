@@ -17,6 +17,27 @@
             </div>
           </div>
         </div>
+      
+      </div>
+      <div>
+        <nav aria-label="Page navigation example">
+          <ul class="pagination">
+            <li class="page-item" :class="{ disabled: userCourse.currentPage === 1 }">
+              <a class="page-link" href="#" @click.prevent="changePage(userCourse.currentPage - 1)">Previous</a>
+            </li>
+            <li
+              v-for="pageNumber in totalPages"
+              :key="pageNumber"
+              class="page-item"
+              :class="{ active: pageNumber === userCourse.currentPage }"
+            >
+              <a class="page-link" href="#" @click.prevent="changePage(pageNumber)">{{ pageNumber }}</a>
+            </li>
+            <li class="page-item" :class="{ disabled: userCourse.currentPage === userCourse.lastPage }">
+              <a class="page-link" href="#" @click.prevent="changePage(userCourse.currentPage + 1)">Next</a>
+            </li>
+          </ul>
+        </nav>
       </div>
     </div>
 
@@ -97,14 +118,16 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted, watch } from 'vue';
+import { ref, onMounted, watch, computed } from 'vue';
 import { useCourseStore } from '@/stores/CourseStore';
 import { useCategoryStore } from '@/stores/CategoryStore';
 
 const selectedCategories = ref<number[]>([]);
 const selectedPrice = ref(500);
 
+const totalPages = computed(() => userCourse.total); // Ensure this computed property fetches the correct value
 const userCourse = useCourseStore();
+
 const categoryStore = useCategoryStore();
 
 const fetchCourses = async () => {
@@ -112,7 +135,16 @@ const fetchCourses = async () => {
     price: selectedPrice.value,
     categories: selectedCategories.value,
   };
-  await userCourse.findAllCourses(1, 10, filters);
+  await userCourse.findAllCourses(userCourse.currentPage, 6, filters);
+};
+
+const changePage = (pageNumber: number) => {
+  if (pageNumber >= 1 && pageNumber <= userCourse.lastPage) {
+    userCourse.findAllCourses(pageNumber, 6, {
+      price: selectedPrice.value,
+      categories: selectedCategories.value,
+    });
+  }
 };
 
 onMounted(async () => {
@@ -122,4 +154,5 @@ onMounted(async () => {
 
 watch(selectedCategories, fetchCourses);
 </script>
+
 

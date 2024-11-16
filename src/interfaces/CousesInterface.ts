@@ -8,13 +8,19 @@ export interface Courses {
   photo: string;
   is_active: number;
   category_id: number
+
 }
 
 export interface ApiCoursesResponse {
   data: {
-    data: Courses[],
-    //paginação
-}       
+    data: Courses[];
+    last_page: number
+    first_page_url: string | null;
+    next_page_url: string | null;
+    prev_page_url: string | null;
+    total: number;
+  };
 }
+
 
 

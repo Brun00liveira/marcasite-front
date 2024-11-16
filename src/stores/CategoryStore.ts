@@ -15,7 +15,7 @@ export const useCategoryStore= defineStore('categoryStore', () => {
 
       category.value = response.data;
       
-    console.log(category)
+ 
     } catch (error) {
       showErrorAlert('Failed to fetch courses');
     }

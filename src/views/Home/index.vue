@@ -22,11 +22,11 @@
             </div>
         </div>
         <div class="row align-items-center">
-            <h1 class="text topic"> Alguns Lançamentos </h1>
+            <h1 class="text topic">Ultimos Lançamentos </h1>
             <!-- Cards Responsivos -->
             <div class="row mt-5">
                 <!-- Usando v-for para iterar sobre os cursos -->
-                <div v-for="course in userCourse.courses" :key="course.id" class="col-12 col-sm-6 col-md-4 col-lg-4 mb-4">
+                <div   v-for="course in userCourse.courses.slice(0, 6)" :key="course.id" class="col-12 col-sm-6 col-md-4 col-lg-4 mb-4">
                     <div class="card" style="width: 100%;">
                         <img src="/images/Home/notebook.png" class="card-img-top" alt="Curso imagem">
                         <div class="card-body">

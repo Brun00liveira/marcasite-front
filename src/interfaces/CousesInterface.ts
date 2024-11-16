@@ -19,6 +19,8 @@ export interface ApiCoursesResponse {
     next_page_url: string | null;
     prev_page_url: string | null;
     total: number;
+    from: number;
+    to: number;
   };
 }
 

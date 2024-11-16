@@ -45,8 +45,15 @@
           <td>01/01/2024 - 30/01/2024</td>
           <td>
             <i class="fa-solid fa-user text-dark"></i>
-            <i class="fa-solid fa-pencil text-success" style="cursor: pointer;"  data-bs-toggle="modal" data-bs-target="#addCourseModal "></i>
-            <i class="fa-solid fa-trash text-danger" style="cursor: pointer;" @click="deleteCourse"></i>
+            <i
+              class="fa-solid fa-pencil text-success"
+              style="cursor: pointer;"
+              @click="editCourse(course.id)"
+              data-bs-toggle="modal"
+              data-bs-target="#editCourseModal"
+            ></i>
+
+            <i class="fa-solid fa-trash text-danger" style="cursor: pointer;" @click="deleteCourse(course.id)"></i>
           </td>
         </tr>
         
@@ -71,6 +78,8 @@
     </ul>
   </nav>
   <AddCourse/>
+  <EditCourse :course="selectedCourse" />
+
 </div>
   
 
@@ -107,6 +116,8 @@ import { useCourseStore } from '@/stores/CourseStore';
 import { useCategoryStore } from '@/stores/CategoryStore';
 import { useRoute, useRouter } from 'vue-router';
 import AddCourse from './modal/addCourse.vue';
+import EditCourse from './modal/editCourse.vue';
+import type { Courses } from '@/interfaces/CousesInterface';
 
 // Obtenção da instância do roteador e da rota
 const route = useRoute();
@@ -124,11 +135,18 @@ const categoryStore = useCategoryStore();
 // Computed para total de páginas
 const totalPages = computed(() => userCourse.total);
 
-// Função para buscar cursos com os filtros
+const selectedCourse = ref<Courses>({
+  id: 0,
+  title: '',
+  category_id: 0,
+  price: 0,
+  description: '',
+});
+
 const fetchCourses = async () => {
 
   const filters = {
-    name: searchQuery.value,  // Filtro por nome
+    name: searchQuery.value,
     price: selectedPrice.value,
     categories: selectedCategories.value,
   };
@@ -157,6 +175,30 @@ onMounted(async () => {
   await categoryStore.findAllCategory();
   await fetchCourses();  // Carrega os cursos inicialmente
 });
+
+const editCourse = async (courseId: number) => {
+  try {
+    await userCourse.findById(courseId);
+
+    if (userCourse.course) {
+      selectedCourse.value = userCourse.course; 
+    }
+  } catch (error) {
+    console.error('Erro ao buscar o curso', error);
+  }
+};
+
+const deleteCourse = async (courseId: number) => {
+  try {
+    await userCourse.deleteCourse(courseId);
+    fetchCourses()
+  } catch (error) {
+    console.error('Erro ao buscar o curso', error);
+  }
+};
+
+
+
 
 const handleSearch = async () => {
   const filters = {

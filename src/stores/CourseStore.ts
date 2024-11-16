@@ -17,6 +17,7 @@ export const useCourseStore = defineStore('courseStore', () => {
   const getTotal = ref<number>(1);
   const from = ref<number>(1);
   const to = ref<number>(1);
+  const course = ref<Courses | null>(null);
 
   async function findAllCourses(
     page: number = 1,
@@ -65,10 +66,12 @@ export const useCourseStore = defineStore('courseStore', () => {
     }
   }
 
-  async function findUserById(id: number): Promise<void> {
+  async function findById(id: number): Promise<void> {
     try {  
       if (id) {
-         await CourseService.findById(id);
+      
+        const response = await CourseService.findById(id);
+        course.value = response.data;
 
       } else {
         showErrorAlert('Erro ao buscar usuário: Usuário não autenticado');
@@ -78,8 +81,29 @@ export const useCourseStore = defineStore('courseStore', () => {
     }
   }
 
+  async function deleteCourse(courseId: number): Promise<void> {
+    try {
+      if (courseId) {
+        const response = await CourseService.delete(courseId);
+        
+        if (response) {
+          // Exibe o alerta de sucesso
+          showSuccessAlert("Curso deletado com sucesso!", "/admin/courses");
+        } else {
+          showErrorAlert('Erro ao deletar o curso. Tente novamente mais tarde.');
+        }
+      } else {
+        showErrorAlert('Erro: ID do curso não fornecido');
+      }
+    } catch (error) {
+      console.error('Erro ao tentar deletar o curso:', error);
+      showErrorAlert('Erro ao deletar o curso');
+    }
+  }
+
   return {
     courses,
+    course,
     loading,
     total,
     currentPage,
@@ -89,6 +113,7 @@ export const useCourseStore = defineStore('courseStore', () => {
     to,
     findAllCourses,
     createCourse,
-    findUserById
+    findById,
+    deleteCourse
   };
 });

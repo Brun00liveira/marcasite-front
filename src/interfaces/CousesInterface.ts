@@ -5,9 +5,9 @@ export interface Courses {
   title: string;
   description: string;
   price: number;
-  photo: string;
-  is_active: number;
-  category_id: number
+  photo?: string;
+  is_active?: number;
+  category_id?: number
 
 }
 
@@ -23,6 +23,11 @@ export interface ApiCoursesResponse {
     to: number;
   };
 }
+export interface CourseIdResponse {
+  message: string;
+  data: Courses;
+}
+
 
 
 

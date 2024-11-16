@@ -51,7 +51,7 @@
             step="10"
             v-model="selectedPrice"
             @mouseup="fetchCourses"
-            @change="fetchCourses"
+            
           />
           <div class="d-flex justify-content-between">
             <span id="priceMin" class="text">R$ 0</span>
@@ -60,17 +60,49 @@
           </div>
         </div>
       </form>
+      <h4 class="text-dark mt-4">Professores</h4>
+
+      <form class="mt-4">
+        <div class="card mt-3">
+            <div class="d-flex justify-content-center mt-3">
+                <img src="https://via.placeholder.com/50" alt="User" class="img-fluid rounded-circle" style="width: 80px; height: 80px;">
+            </div>
+            <div class="card-body text-center">
+                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                <small class="card-text emphasis">20 cursos</small>
+            </div>
+        </div>
+        <div class="card mt-3">
+            <div class="d-flex justify-content-center mt-3">
+                <img src="https://via.placeholder.com/50" alt="User" class="img-fluid rounded-circle" style="width: 80px; height: 80px;">
+            </div>
+            <div class="card-body text-center">
+                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                <small class="card-text emphasis">20 cursos</small>
+            </div>
+        </div>
+
+        <div class="card mt-3">
+            <div class="d-flex justify-content-center mt-3">
+                <img src="https://via.placeholder.com/50" alt="User" class="img-fluid rounded-circle" style="width: 80px; height: 80px;">
+            </div>
+            <div class="card-body text-center">
+                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                <small class="card-text emphasis">20 cursos</small>
+            </div>
+        </div>
+      </form>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted, computed, watch } from 'vue';
+import { ref, onMounted, watch } from 'vue';
 import { useCourseStore } from '@/stores/CourseStore';
 import { useCategoryStore } from '@/stores/CategoryStore';
 
 const selectedCategories = ref<number[]>([]);
-const selectedPrice = ref(500); // Valor inicial do preço
+const selectedPrice = ref(500);
 
 const userCourse = useCourseStore();
 const categoryStore = useCategoryStore();
@@ -80,9 +112,7 @@ const fetchCourses = async () => {
     price: selectedPrice.value,
     categories: selectedCategories.value,
   };
-  console.log(filters)
   await userCourse.findAllCourses(1, 10, filters);
-
 };
 
 onMounted(async () => {
@@ -90,6 +120,6 @@ onMounted(async () => {
   await fetchCourses();
 });
 
-watch([selectedPrice, selectedCategories], fetchCourses);
-
+watch(selectedCategories, fetchCourses);
 </script>
+

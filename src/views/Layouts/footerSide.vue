@@ -1,5 +1,5 @@
 <template>
-  <footer class="body text-light py-5 mt-5 main-content d-none">
+  <footer class="body text-light py-5 mt-5 main-content">
     
     <div class="container ">
       <h5>Ficou com alguma dúvida? Entre em contato com o <a href="">Suporte</a></h5>

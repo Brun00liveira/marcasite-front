@@ -28,7 +28,7 @@ export const useCourseStore = defineStore('courseStore', () => {
       };
       
       const response = await CourseService.findAll(queryFilters);
-    
+      console.log(response)
       courses.value = response.data.data;
     } catch (error) {
       showErrorAlert('Failed to fetch courses');

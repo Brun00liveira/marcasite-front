@@ -2,6 +2,18 @@
   <div class="row">
     <div class="col-8">
       <h1 class="text topic">Cursos</h1>
+      <div class="mt-5">
+        <form @submit.prevent="handleSearch" class="d-flex" role="search">
+          <input
+            v-model="searchQuery"
+            class="form-control me-2"
+            type="search"
+            placeholder="Pesquise por um curso"
+            aria-label="Search"
+          />
+          <button class="btn btn-outline-primary" type="submit">Search</button>
+        </form>
+  </div>
       <div class="row mt-5">
         <div
           v-for="course in userCourse.courses"
@@ -17,11 +29,10 @@
             </div>
           </div>
         </div>
-      
       </div>
       <div>
         <nav aria-label="Page navigation example">
-          <ul class="pagination">
+          <ul class="pagination justify-content-center">
             <li class="page-item" :class="{ disabled: userCourse.currentPage === 1 }">
               <a class="page-link" href="#" @click.prevent="changePage(userCourse.currentPage - 1)">Previous</a>
             </li>
@@ -72,7 +83,6 @@
             step="10"
             v-model="selectedPrice"
             @mouseup="fetchCourses"
-            
           />
           <div class="d-flex justify-content-between">
             <span id="priceMin" class="text">R$ 0</span>
@@ -117,42 +127,66 @@
   </div>
 </template>
 
+
 <script lang="ts" setup>
 import { ref, onMounted, watch, computed } from 'vue';
 import { useCourseStore } from '@/stores/CourseStore';
 import { useCategoryStore } from '@/stores/CategoryStore';
+import { useRoute, useRouter } from 'vue-router';
 
-const selectedCategories = ref<number[]>([]);
-const selectedPrice = ref(500);
+// Obtenção da instância do roteador e da rota
+const route = useRoute();
+const router = useRouter();
 
-const totalPages = computed(() => userCourse.total); // Ensure this computed property fetches the correct value
+// Estados para filtros
+const searchQuery = ref(route.query.search?.toString() || '');  // Inicializa com o valor de pesquisa da URL, se existir
+const selectedCategories = ref<number[]>(route.query.categories ? route.query.categories.toString().split(',').map(Number) : []);  // Pega as categorias da URL, se houver
+const selectedPrice = ref(Number(route.query.price) || 500);  // Inicializa o preço com o valor da URL, se existir
+
+// Armazenamento de cursos e categorias
 const userCourse = useCourseStore();
-
 const categoryStore = useCategoryStore();
 
+// Computed para total de páginas
+const totalPages = computed(() => userCourse.total);
+
+// Função para buscar cursos com os filtros
 const fetchCourses = async () => {
   const filters = {
+    name: searchQuery.value,  // Filtro por nome
     price: selectedPrice.value,
     categories: selectedCategories.value,
   };
   await userCourse.findAllCourses(userCourse.currentPage, 6, filters);
 };
 
+// Função para alterar a página
 const changePage = (pageNumber: number) => {
   if (pageNumber >= 1 && pageNumber <= userCourse.lastPage) {
     userCourse.findAllCourses(pageNumber, 6, {
       price: selectedPrice.value,
       categories: selectedCategories.value,
+      name: searchQuery.value,
     });
   }
 };
 
+// Monitoramento dos filtros (sempre que eles mudam, a busca é feita e a URL é atualizada)
+watch([selectedCategories, selectedPrice, searchQuery], () => {
+  fetchCourses();
+}, { immediate: true });
+
+// Carregar categorias ao montar o componente
 onMounted(async () => {
   await categoryStore.findAllCategory();
-  await fetchCourses();
+  await fetchCourses();  // Carrega os cursos inicialmente
 });
 
-watch(selectedCategories, fetchCourses);
+const handleSearch = async () => {
+  const filters = {
+    name: searchQuery.value,
+  };
+
+  await userCourse.findAllCourses(1, 6, filters);
+};
 </script>
-
-

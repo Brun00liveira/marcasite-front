@@ -51,7 +51,6 @@ const router = useRouter();
 const userCourse = useCourseStore();
 
 const searchCourses = async () => {
-  await userCourse.findAllCourses(1, 10, searchQuery.value);
   router.push({ path: '/courses', query: { search: searchQuery.value } });
 };
 

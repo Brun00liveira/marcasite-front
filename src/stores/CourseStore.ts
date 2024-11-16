@@ -16,7 +16,7 @@ export const useCourseStore = defineStore('courseStore', () => {
   async function findAllCourses(
     page: number = 1,
     perPage: number = 1,
-    filters: { price?: number; categories?: number[] } = {}
+    filters: {name?: string; price?: number; categories?: number[] } = {}
   ): Promise<void> {
     try {
       loading.value = true;
@@ -26,14 +26,14 @@ export const useCourseStore = defineStore('courseStore', () => {
       const queryFilters: any = {
         page,
         perPage,
+        ...(filters.name && { name: filters.name }),  
         ...(filters.price && { price: filters.price }),
         ...(categoryIds && { category_id: categoryIds })
       };
 
       const response = await CourseService.findAll(queryFilters);
- 
+      
       courses.value = response.data.data;
-   
       lastPage.value = response.data.last_page;
       total.value = response.data.last_page;
 

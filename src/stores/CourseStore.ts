@@ -81,6 +81,20 @@ export const useCourseStore = defineStore('courseStore', () => {
     }
   }
 
+  async function updateCourse(id: number,updateData: Courses): Promise<void> {
+    try {
+     
+        await CourseService.update(id, updateData);
+
+        showSuccessAlert("Perfil atualizado com sucesso!", "/home");
+         setTimeout(() => {
+        router.go(0);
+      }, 1000);
+    
+    } catch (error) {
+      showErrorAlert('Ocorreu um erro inesperado.');
+    }
+  }
   async function deleteCourse(courseId: number): Promise<void> {
     try {
       if (courseId) {
@@ -114,6 +128,7 @@ export const useCourseStore = defineStore('courseStore', () => {
     findAllCourses,
     createCourse,
     findById,
-    deleteCourse
+    deleteCourse,
+    updateCourse
   };
 });

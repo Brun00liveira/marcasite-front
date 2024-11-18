@@ -11,6 +11,7 @@ export const useCategoryStore= defineStore('categoryStore', () => {
   const category = ref<Category[]>([]);
   const categorie = ref<Category | null>(null);
   
+  
   async function findAllCategory(): Promise<void> {
     try {
       const response = await CategoryService.getAllCategory();
@@ -42,7 +43,7 @@ export const useCategoryStore= defineStore('categoryStore', () => {
       if (id) {
       
         const response = await CategoryService.findById(id);
-        category.value = response.data;
+        categorie.value = response.data;
 
       } else {
         showErrorAlert('Erro ao buscar usuário: Usuário não autenticado');
@@ -51,11 +52,48 @@ export const useCategoryStore= defineStore('categoryStore', () => {
       showErrorAlert('Erro ao buscar usuário');
     }
   }
+
+  async function updateCategory(id: number,updateData: Category): Promise<void> {
+      try {
+      
+          await CategoryService.update(id, updateData);
+
+          showSuccessAlert("Perfil atualizado com sucesso!", "/home");
+          setTimeout(() => {
+          router.go(0);
+        }, 1000);
+      
+      } catch (error) {
+        showErrorAlert('Ocorreu um erro inesperado.');
+      }
+    }
+    async function deleteCategory(categoryId: number): Promise<void> {
+      try {
+        if (categoryId) {
+          const response = await CategoryService.delete(categoryId);
+          
+          if (response) {
+            // Exibe o alerta de sucesso
+            showSuccessAlert("Curso deletado com sucesso!", "/admin/Category");
+          } else {
+            showErrorAlert('Erro ao deletar o curso. Tente novamente mais tarde.');
+          }
+        } else {
+          showErrorAlert('Erro: ID do curso não fornecido');
+        }
+      } catch (error) {
+        console.error('Erro ao tentar deletar o curso:', error);
+        showErrorAlert('Erro ao deletar o curso');
+      }
+  }
      
   return {
     category,
     categorie,
     findAllCategory,
-    createCategory
+    createCategory,
+    findById,
+    deleteCategory,
+    updateCategory,
   };
 });

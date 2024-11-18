@@ -39,15 +39,15 @@
     </tr>
   </thead>
   <tbody>
-    <tr v-for="(item, index) in categoryStore.category" :key="index">
+    <tr v-for="item in categoryStore.category" :key="item.id">
       <td>{{ item.name }}</td>
       <td>{{ item.is_active }}</td>
       <td>{{ item.description }}</td>
     
       <td>
-        <i class="fa-solid fa-user text-dark"></i>
-        <!-- <i class="fa-solid fa-pencil text-success" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#editCourseModal" @click="editCourse(item)"></i>
-        <i class="fa-solid fa-trash text-danger" style="cursor: pointer;" @click="deleteCourse(item)"></i> -->
+
+        <i class="fa-solid fa-pencil text-success" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#editCategoryModal" @click="editCategory(item.id)"></i> 
+        <i class="fa-solid fa-trash text-danger" style="cursor: pointer;" @click="deleteCourse(item.id)"></i>
       </td>
     </tr>
   </tbody>
@@ -55,18 +55,54 @@
 
   </div>
   <AddCategory/>
+  <EditCategory :category="selectedCategory" />
+
 </template>
 
 <script lang="ts" setup>
 import { useCategoryStore } from '@/stores/CategoryStore';
-import { onMounted } from 'vue';
+import { onMounted, ref } from 'vue';
 import AddCategory from './modal/category/addCategory.vue';
-
+import EditCategory from './modal/category/editCategory.vue';
+import type { Category } from '@/interfaces/CategoryInterface';
 const categoryStore = useCategoryStore();
 
 onMounted(async () => {
   await categoryStore.findAllCategory();
 });
+
+const selectedCategory = ref<Category>({
+  id: 0,
+  name: "",
+  slug: "",
+  description: "",
+  is_active: 1,
+});
+
+const editCategory = async (categoryId: number) => {
+  try {
+
+    await categoryStore.findById(categoryId);
+
+    if (categoryStore.categorie) {
+      selectedCategory.value = categoryStore.categorie; 
+    }
+  } catch (error) {
+    console.error('Erro ao buscar o curso', error);
+  }
+};
+
+const deleteCourse = async (categoryId: number) => {
+  try {
+
+    await categoryStore.deleteCategory(categoryId);
+    await categoryStore.findAllCategory();
+  } catch (error) {
+    console.error('Erro ao buscar o curso', error);
+  }
+};
+
+
 </script>
 
 <style scoped>

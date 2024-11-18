@@ -1,5 +1,5 @@
 export interface Category {
-    id: number,
+    id?: number,
     name: string;
     slug: string;
     description: string;
@@ -9,6 +9,6 @@ export interface Category {
 
 export interface ApiCategoryResponse {
     
-    data: Category[]
+    data: Category[];
   
 } 

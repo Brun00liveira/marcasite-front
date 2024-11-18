@@ -1,12 +1,36 @@
 <template>
   <div class="container">
     <h1 class="text topic mb-5">Cursos</h1>
-    <div class="col-4 mt-3 col-4">
-        <div class="input-group mb-3 ">
-          <input type="text" class="form-control " placeholder="Nome" aria-label="Recipient's username" aria-describedby="button-addon2">
-          <button class="btn btn-outline-secondary" type="button" id="button-addon2"> <i class="fa-solid fa-magnifying-glass text-dark"></i></button>
-        </div>
+    <div class="col-4 mt-3">
+      <div class="input-group mb-3">
+        <!-- Campo de entrada para o filtro de nome -->
+        <input 
+          type="text" 
+          class="form-control" 
+          placeholder="Nome" 
+          v-model="searchName"
+          aria-label="Recipient's username" 
+          aria-describedby="button-addon2" 
+        />
+        <!-- Botão para disparar a busca -->
+        <button 
+          class="btn btn-outline-secondary" 
+          type="button" 
+          id="button-addon2" 
+          @click="filterCoursesByName"
+        >
+          <i class="fa-solid fa-magnifying-glass text-dark"></i>
+        </button>
+        <button 
+      class="btn btn-outline-danger ms-2" 
+      type="button" 
+      @click="clearFilter"
+    >
+      Limpar
+    </button>
+      </div>
     </div>
+
     <div class="row justify">
         <div class="col">
             <p class="text margin-bottom">Exibindo {{ userCourse.from }} até {{ userCourse.to }} de um total de 6 itens encontrados <strong>{{ userCourse.getTotal }}</strong></p>
@@ -31,7 +55,6 @@
           <th scope="col">Nome</th>
           <th scope="col">Status</th>
           <th scope="col">Valor</th>
-          <th scope="col">Período de Inscrição</th>
           <th scope="col">Ações</th>
         </tr>
       </thead>
@@ -42,7 +65,6 @@
           <td>{{course.title}}</td>
           <td>{{course.is_active}}</td>
           <td>{{course.price}}</td>
-          <td>01/01/2024 - 30/01/2024</td>
           <td>
             <i class="fa-solid fa-user text-dark"></i>
             <i
@@ -115,8 +137,8 @@ import { ref, onMounted, watch, computed } from 'vue';
 import { useCourseStore } from '@/stores/CourseStore';
 import { useCategoryStore } from '@/stores/CategoryStore';
 import { useRoute, useRouter } from 'vue-router';
-import AddCourse from './modal/addCourse.vue';
-import EditCourse from './modal/editCourse.vue';
+import AddCourse from './modal/course/addCourse.vue';
+import EditCourse from './modal/course/editCourse.vue';
 import type { Courses } from '@/interfaces/CousesInterface';
 
 // Obtenção da instância do roteador e da rota
@@ -131,7 +153,7 @@ const selectedPrice = ref(Number(route.query.price) || 500);  // Inicializa o pr
 // Armazenamento de cursos e categorias
 const userCourse = useCourseStore();
 const categoryStore = useCategoryStore();
-
+const searchName = ref<string>('');
 // Computed para total de páginas
 const totalPages = computed(() => userCourse.total);
 
@@ -197,14 +219,13 @@ const deleteCourse = async (courseId: number) => {
   }
 };
 
-
-
-
-const handleSearch = async () => {
-  const filters = {
-    name: searchQuery.value,
-  };
-
-  await userCourse.findAllCourses(1, 6, filters);
+const filterCoursesByName = () => {
+  userCourse.findAllCourses(1, 5, { name: searchName.value });
 };
+
+const clearFilter = () => {
+  searchName.value = '';
+  userCourse.findAllCourses(1, 5, { name: searchName.value });
+};
+
 </script>

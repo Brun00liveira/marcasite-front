@@ -9,10 +9,7 @@
         <div class="modal-body text">
           <h5 class="modal-title text mb-4 emphasis" id="perfilModalLabel">Dados Pessoais</h5>
           <div class="d-flex justify-content-center align-items-center flex-column">
-            <!-- <img :src="imagePreview" alt="User" class="img-fluid rounded-circle mb-3" style="width: 100px; height: 100px;">
-            <div class="col-md-6 mb-4">
-              <input type="file" class="form-control" id="imagem" @change="handleImageChange" />
-            </div> -->
+         
           </div>
 
           <div class="row mb-3">
@@ -34,14 +31,6 @@
           </div>
 
           <div class="row mb-3">
-            <!-- <div class="col-md-6">
-              <label for="startDate" class="form-label">Data de Início</label>
-              <input type="date" class="form-control" id="startDate" v-model="course.start_date" required />
-            </div>
-            <div class="col-md-6">
-              <label for="endDate" class="form-label">Data de Término</label>
-              <input type="date" class="form-control" id="endDate" v-model="course.end_date" required />
-            </div> -->
             <div class="col-md-12 mt-2">
               <label for="description" class="form-label">Descrição</label>
               <textarea class="form-control" id="description" v-model="course.description" rows="3" required></textarea>

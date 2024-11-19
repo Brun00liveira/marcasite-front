@@ -42,7 +42,7 @@
               <button type="button" class="btn btn-danger mx-2 " data-bs-toggle="dropdown" aria-expanded="false">
                 <i class="fa-solid fa-bars" style="margin-left: 0px;"></i> 
                 <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" href="#">Excel</a></li>
+                  <li><a class="dropdown-item" @click="extractExcel" href="#">Excel</a></li>
                   <li><a class="dropdown-item" @click="extractPDF">PDF</a></li>
                 </ul>
               </button>
@@ -135,14 +135,23 @@
       subscription.findAllSubscription(subscription.currentPage, 6, { name: searchName.value })
     };
 
-    const extractPDF = async () => {
+  const extractPDF = async () => {
     try {
         await subscription.exportSubscription();
       
     } catch (error) {
         console.error('Erro ao exportar o PDF:', error);
     }
-};
+  };
+
+  const extractExcel = async () => {
+    try {
+        await subscription.exportExcelSubscription();
+      
+    } catch (error) {
+        console.error('Erro ao exportar o PDF:', error);
+    }
+  };
 
 
     const clearFilter = () => {

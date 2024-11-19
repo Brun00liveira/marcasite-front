@@ -63,9 +63,26 @@ export const useSubscriptionStore = defineStore('subscriptionStore', () => {
         window.URL.revokeObjectURL(url);
     } catch (error) {
         console.error('Erro ao exportar o PDF:', error);
-    }
+    }   
 }
-  
+async function exportExcelSubscription() {
+  try {
+      const excelBlob = await ExportServices.subscriptionExcel(); // Chama o serviço e obtém o Blob (Excel)
+      
+      const url = window.URL.createObjectURL(excelBlob);
+      
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'relatorio_inscricao.xlsx';
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+
+      window.URL.revokeObjectURL(url);
+  } catch (error) {
+      console.error('Erro ao exportar o Excel:', error);
+  }
+}
   return {
     subscriptions,
     total,
@@ -75,6 +92,8 @@ export const useSubscriptionStore = defineStore('subscriptionStore', () => {
     from,
     to,
     findAllSubscription,
-    exportSubscription
+    exportSubscription,
+    exportExcelSubscription
+
   };
 });

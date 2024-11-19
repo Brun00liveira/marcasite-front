@@ -17,6 +17,22 @@ class ExportServices {
                 throw error;
             });
     }
-}
+
+    subscriptionExcel(): Promise<Blob> {
+        return APITOKEN.get('/export', { responseType: 'blob' })
+            .then(response => {
+                if (response.headers['content-type'] === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet') {
+                    return response.data; 
+                } else {
+                    throw new Error('A resposta não é um arquivo Excel');
+                }
+            })
+            .catch(error => {
+                console.error('Erro ao exportar Excel:', error);
+                throw error;
+            });
+    }
+}    
+
 
 export default new ExportServices();

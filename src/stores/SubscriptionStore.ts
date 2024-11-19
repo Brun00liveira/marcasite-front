@@ -44,43 +44,8 @@ export const useSubscriptionStore = defineStore('subscriptionStore', () => {
     }
   }
 
-  async function exportSubscription() {
-    try {
-        const pdfBlob = await ExportServices.subscriptionPdf();
-        
-        const url = window.URL.createObjectURL(pdfBlob);
-        
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = 'relatorio_inscricao.pdf';
-        document.body.appendChild(a);
-        a.click();
-        a.remove();
 
-        window.URL.revokeObjectURL(url);
-    } catch (error) {
-        console.error('Erro ao exportar o PDF:', error);
-    }   
-  }
-
-  async function exportExcelSubscription() {
-    try {
-        const excelBlob = await ExportServices.subscriptionExcel();
-        
-        const url = window.URL.createObjectURL(excelBlob);
-        
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = 'relatorio_inscricao.xlsx';
-        document.body.appendChild(a);
-        a.click();
-        a.remove();
-
-        window.URL.revokeObjectURL(url);
-    } catch (error) {
-        console.error('Erro ao exportar o Excel:', error);
-    }
-  }
+  
 
   async function findByUserId() {
     try {
@@ -102,8 +67,6 @@ export const useSubscriptionStore = defineStore('subscriptionStore', () => {
     to,
     subscription,
     findAllSubscription,
-    exportSubscription,
-    exportExcelSubscription,
     findByUserId, // Agora corretamente incluído no retorno
   };
 });

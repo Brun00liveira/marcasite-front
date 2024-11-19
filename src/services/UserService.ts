@@ -1,5 +1,5 @@
 import APITOKEN from "@/config/http-common"; 
-import { type User, type Register, type UserResponse } from "@/interfaces/UserInterface"; 
+import { type User, type Register, type UserResponse, type ApiUserResponse } from "@/interfaces/UserInterface"; 
 
 class AuthService {
    
@@ -7,8 +7,8 @@ class AuthService {
         return APITOKEN.post('/users', registerData).then(response => response.data);
     }
 
-    findAll(): Promise<User[]> {
-        return APITOKEN.get('/users').then(response => response.data);
+    findAll(params: any): Promise<ApiUserResponse> {
+        return APITOKEN.get('/users', { params }).then(response => response.data);
     }
 
     findById(id: number): Promise<UserResponse> {
@@ -28,7 +28,7 @@ class AuthService {
     }
 
     delete(id: number): Promise<void> {
-        return APITOKEN.delete(`/api/users/${id}`).then(response => response.data);
+        return APITOKEN.delete(`/users/${id}`).then(response => response.data);
     }
 }
 

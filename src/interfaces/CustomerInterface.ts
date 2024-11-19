@@ -1,3 +1,4 @@
+import type { Subscription } from "./SubscriptionInterface";
 import type { User } from "./UserInterface";
 
 export interface Customer {
@@ -7,5 +8,6 @@ export interface Customer {
     created_at?: string;
     updated_at?: string;
     user?: User;
+    subscription?: Subscription
   }
   

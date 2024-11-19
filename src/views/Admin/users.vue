@@ -36,7 +36,7 @@
                 <p class="text margin-bottom">Exibindo 1 até 6 de um total de 6 itens encontrados <strong>(sem filtro 6)</strong></p>
             </div>
             <div class="col text-end">
-              <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addCourseModal">
+              <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addUserModal">
                 Adicionar
               </button>
               <button type="button" class="btn btn-danger mx-2 " data-bs-toggle="dropdown" aria-expanded="false">
@@ -53,47 +53,61 @@
         <thead>
           <tr style="background-color: #335992FF;">
             <th scope="col">Nome</th>
+            <th scope="col">Email</th>
             <th scope="col">Status</th>
             <th scope="col">Valor</th>
             <th scope="col">Método de Pagamento</th>
             <th scope="col">Data do pagamento</th>
-            <th scope="col">Data de vencimento</th>
+            <th scope="col">Ações</th>
           </tr>
         </thead>
-         <tbody v-for="subscript in subscription.subscriptions">
+         <tbody v-for="user in userStore.users">
           <tr>
-            <td>{{subscript.customer.user?.name}}</td>
-            <td>{{subscript.status}}</td>
-            <td>{{subscript.value}}</td>
-            <td>{{subscript.billing_type}}</td>
-            <td>{{subscript.payment_date}}</td>
-            <td>{{subscript.due_date}}</td>
+            <td>{{user.name}}</td>
+            <td>{{user.email}}</td>
+            <td>{{user.customer?.subscription?.status}}</td>
+            <td>{{user.customer?.subscription?.value}}</td>
+            <td>{{user.customer?.subscription?.billing_type}}</td>
+            <td>{{user.customer?.subscription?.payment_date}}</td>
+            <td>
+            
+            <i
+              class="fa-solid fa-pencil text-success"
+              style="cursor: pointer;"
+              @click="editUser(user.id)"
+              data-bs-toggle="modal"
+              data-bs-target="#editUserModal"
+            ></i>
+
+            <i class="fa-solid fa-trash text-danger" style="cursor: pointer;" @click="deleteUser(user.id)"></i>
+              </td> 
           </tr>
         </tbody>
       </table>
       <nav aria-label="Page navigation example">
     <ul class="pagination justify-content-center">
-      <li class="page-item" :class="{ disabled: subscription.currentPage === 1 }">
-        <a class="page-link" href="#" @click.prevent="changePage(subscription.currentPage - 1)">Previous</a>
+      <li class="page-item" :class="{ disabled: userStore.currentPage === 1 }">
+        <a class="page-link" href="#" @click.prevent="changePage(userStore.currentPage - 1)">Previous</a>
       </li>
       <li
         v-for="pageNumber in totalPages"
         :key="pageNumber"
         class="page-item"
-        :class="{ active: pageNumber === subscription.currentPage }"
+        :class="{ active: pageNumber === userStore.currentPage }"
       >
         <a class="page-link" href="#" @click.prevent="changePage(pageNumber)">{{ pageNumber }}</a>
       </li>
-      <li class="page-item" :class="{ disabled: subscription.currentPage === subscription.lastPage }">
-        <a class="page-link" href="#" @click.prevent="changePage(subscription.currentPage + 1)">Next</a>
+      <li class="page-item" :class="{ disabled: userStore.currentPage === userStore.lastPage }">
+        <a class="page-link" href="#" @click.prevent="changePage(userStore.currentPage + 1)">Next</a>
       </li>
     </ul>
   </nav>
     </div>
-
+    <AddUser/>
+    <EditUser :user="selectedUser"/>
 </template>
   
-  <style scoped>
+<style scoped>
   th,
   td {
   background-color: transparent;
@@ -120,24 +134,41 @@
   </style>
   <script lang="ts" setup>
     import { ref, onMounted, watch, computed } from 'vue';
-    import { useSubscriptionStore } from '@/stores/SubscriptionStore';
+    import { useUserStore } from '@/stores/UserStore';
+    import AddUser from './modal/user/addUser.vue';
+import type { Register, User } from '@/interfaces/UserInterface';
+import EditUser from './modal/user/editUser.vue';
 
     const searchName = ref<string>('');
-    const subscription = useSubscriptionStore();
+    const userStore = useUserStore();
+    const selectedUser = ref<Register>({
+      id: 0,
+      name: '',
+      email: '',
+      phone: '',
+      cpf: null,
+      birth_date: null,
+      address: null,
+      city: null,
+      state: null,
+      cep: null,
+      country: null
+    });
 
+      
     onMounted(async () => {
-      await subscription.findAllSubscription();
+      await userStore.findAll();
      
     });
 
     const filterCoursesByName = () => {
   
-      subscription.findAllSubscription(subscription.currentPage, 6, { name: searchName.value })
+      userStore.findAll(userStore.currentPage, 6, { name: searchName.value })
     };
 
   const extractPDF = async () => {
     try {
-        await subscription.exportSubscription();
+        await userStore.exportSubscription();
       
     } catch (error) {
         console.error('Erro ao exportar o PDF:', error);
@@ -146,7 +177,7 @@
 
   const extractExcel = async () => {
     try {
-        await subscription.exportExcelSubscription();
+        await userStore.exportExcelSubscription();
       
     } catch (error) {
         console.error('Erro ao exportar o PDF:', error);
@@ -156,17 +187,45 @@
 
     const clearFilter = () => {
       searchName.value = '';
-      subscription.findAllSubscription(1, 6, { name: searchName.value });
+      userStore.findAll(1, 6, { name: searchName.value });
     };
 
-    const totalPages = computed(() => subscription.last_page);
+    const totalPages = computed(() => userStore.last_page);
 
     const changePage = (pageNumber: number) => {
 
-      if (pageNumber >= 1 && pageNumber <= subscription.lastPage) {
+      if (pageNumber >= 1 && pageNumber <= userStore.lastPage) {
         
-        subscription.findAllSubscription(pageNumber, 6);
+        userStore.findAll(pageNumber, 6);
       }
     };
+
+    const fetchUsers = async () => {
+
+
+      await userStore.findAll(userStore.currentPage, 6)
+    };
+
+const deleteUser = async (userId: number) => {
+  try {
+    await userStore.deleteUsers(userId);
+    fetchUsers()
+  } catch (error) {
+    console.error('Erro ao buscar o curso', error);
+  }
+};
+const editUser = async (userId: number) => {
+  try {
+    await userStore.findById(userId);
+    console.log(userStore.register)
+    if (userStore.user) {
+     
+      selectedUser.value = userStore.user;
+    }
+
+  } catch (error) {
+    console.error('Erro ao buscar o curso', error);
+  }
+}
   
   </script>

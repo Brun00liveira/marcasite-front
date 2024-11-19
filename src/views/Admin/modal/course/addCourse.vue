@@ -58,6 +58,7 @@ const course = ref({
   photo: "", 
   is_active: 1,
   category_id: 0,
+  category: null
 });
 
 const saveCourse = async () => {

@@ -36,7 +36,7 @@ export const useCourseStore = defineStore('courseStore', () => {
         ...(filters.price && { price: filters.price }),
         ...(categoryIds && { category_id: categoryIds })
       };
-
+ 
       const response = await CourseService.findAll(queryFilters);
 
       courses.value = response.data.data;

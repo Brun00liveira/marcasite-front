@@ -20,16 +20,18 @@ export const useSubscriptionStore = defineStore('subscriptionStore', () => {
   async function findAllSubscription(
     page: number = 1,
     perPage: number = 6,
+    filters: {name?: string} = {}
   ): Promise<void> {
     try {
      
       const queryFilters: any = {
         page,
-        perPage
+        perPage,
+        name: filters.name
       };
-
+      console.log(queryFilters)
       const response = await SubscriptionService.findAll(queryFilters);
-   
+ 
       subscriptions.value = response.data.data;
       lastPage.value = response.data.last_page;
       last_page.value = response.data.last_page;

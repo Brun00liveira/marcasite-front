@@ -1,12 +1,36 @@
 <template>
     <div class="container">
       <h1 class="text topic mb-5">Users</h1>
-      <div class="col-4 mt-3 col-4">
-          <div class="input-group mb-3 ">
-          <input type="text" class="form-control " placeholder="Nome" aria-label="Recipient's username" aria-describedby="button-addon2">
-          <button class="btn btn-outline-secondary" type="button" id="button-addon2"> <i class="fa-solid fa-magnifying-glass text-dark"></i></button>
-          </div>
+      <div class="col-4 mt-3">
+      <div class="input-group mb-3">
+        <!-- Campo de entrada para o filtro de nome -->
+        <input 
+          type="text" 
+          class="form-control" 
+          placeholder="Nome" 
+          v-model="searchName"
+          aria-label="Recipient's username" 
+          aria-describedby="button-addon2" 
+        />
+        <!-- Botão para disparar a busca -->
+        <button 
+          class="btn btn-outline-secondary" 
+          type="button" 
+          id="button-addon2" 
+          @click="filterCoursesByName"
+        >
+          <i class="fa-solid fa-magnifying-glass text-dark"></i>
+        </button>
+        <button 
+      class="btn btn-outline-danger ms-2" 
+      type="button" 
+      @click="clearFilter"
+    >
+      Limpar
+    </button>
       </div>
+    </div>
+
         <div class="row justify">
             <div class="col">
                 <p class="text margin-bottom">Exibindo 1 até 6 de um total de 6 itens encontrados <strong>(sem filtro 6)</strong></p>
@@ -97,7 +121,7 @@
   <script lang="ts" setup>
     import { ref, onMounted, watch, computed } from 'vue';
     import { useSubscriptionStore } from '@/stores/SubscriptionStore';
-      
+    const searchName = ref<string>('');
     const subscription = useSubscriptionStore();
 
     onMounted(async () => {
@@ -105,7 +129,17 @@
      
     });
 
-    const totalPages = computed(() => subscription.total);
+    const filterCoursesByName = () => {
+  
+      subscription.findAllSubscription(subscription.currentPage, 6, { name: searchName.value })
+    };
+
+    const clearFilter = () => {
+      searchName.value = '';
+      subscription.findAllSubscription(1, 6, { name: searchName.value });
+    };
+
+    const totalPages = computed(() => subscription.last_page);
 
     const changePage = (pageNumber: number) => {
 

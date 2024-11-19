@@ -33,7 +33,7 @@
 
         <div class="row justify">
             <div class="col">
-                <p class="text margin-bottom">Exibindo 1 até 6 de um total de 6 itens encontrados <strong>(sem filtro 6)</strong></p>
+              <p class="text margin-bottom">Exibindo {{ userStore.from }} até {{ userStore.to }} de um total de 6 itens encontrados <strong>{{ userStore.total }}</strong></p>
             </div>
             <div class="col text-end">
               <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addUserModal">

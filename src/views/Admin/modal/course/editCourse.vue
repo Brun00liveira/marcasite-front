@@ -9,7 +9,7 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h1 class="modal-title fs-5 text" id="editCourseModalLabel">Adicionar Curso</h1>
+          <h1 class="modal-title fs-5 text" id="editCourseModalLabel">Editar Curso</h1>
           <button
             type="button"
             class="btn-close"
@@ -57,16 +57,18 @@
               </select>
             </div>
             <div class="col-md-4">
-              <label for="price" class="form-label">Valor</label>
-              <input
-                type="text"
+              <label for="is_active" class="form-label">Status</label>
+              <select
                 class="form-control"
-                id="price"
-                v-model="course.price"
-                placeholder="Valor do curso"
+                id="is_active"
+                v-model="course.is_active"
                 required
-              />
+              >
+                <option value="1">Ativo</option>
+                <option value="0">Inativo</option>
+              </select>
             </div>
+
           </div>
 
           <div class="row mb-3">

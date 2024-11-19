@@ -5,6 +5,7 @@ import CourseService from "@/services/CourseService";
 import { type Courses } from "@/interfaces/CousesInterface";
 import { useRouter } from "vue-router";
 import router from "@/router";
+import ExportServices from "@/services/ExportServices";
 
 export const useCourseStore = defineStore('courseStore', () => {
   const { showSuccessAlert, showErrorAlert } = useAlert();
@@ -22,7 +23,7 @@ export const useCourseStore = defineStore('courseStore', () => {
   async function findAllCourses(
     page: number = 1,
     perPage: number = 1,
-    filters: {name?: string; price?: number; categories?: number[] } = {}
+    filters: {name?: string; categories?: number[] } = {}
   ): Promise<void> {
     try {
       loading.value = true;
@@ -33,7 +34,6 @@ export const useCourseStore = defineStore('courseStore', () => {
         page,
         perPage,
         ...(filters.name && { name: filters.name }),  
-        ...(filters.price && { price: filters.price }),
         ...(categoryIds && { category_id: categoryIds })
       };
  
@@ -114,6 +114,43 @@ export const useCourseStore = defineStore('courseStore', () => {
       showErrorAlert('Erro ao deletar o curso');
     }
   }
+  async function exportCourses() {
+    try {
+        const pdfBlob = await ExportServices.CoursePdf();
+        
+        const url = window.URL.createObjectURL(pdfBlob);
+        
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'relatorio_inscricao.pdf';
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+
+        window.URL.revokeObjectURL(url);
+    } catch (error) {
+        console.error('Erro ao exportar o PDF:', error);
+    }   
+  }
+
+  async function exportExcelCourses() {
+    try {
+        const excelBlob = await ExportServices.CourseExcel();
+        
+        const url = window.URL.createObjectURL(excelBlob);
+        
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'relatorio_inscricao.xlsx';
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+
+        window.URL.revokeObjectURL(url);
+    } catch (error) {
+        console.error('Erro ao exportar o Excel:', error);
+    }
+  }
 
   return {
     courses,
@@ -129,6 +166,8 @@ export const useCourseStore = defineStore('courseStore', () => {
     createCourse,
     findById,
     deleteCourse,
-    updateCourse
+    updateCourse,
+    exportCourses,
+    exportExcelCourses
   };
 });

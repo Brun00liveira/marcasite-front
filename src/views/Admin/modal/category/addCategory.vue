@@ -21,8 +21,8 @@
                 <input type="text" class="form-control" id="name" v-model="categories.name" placeholder="Título do curso" required />
               </div>
               <div class="col-md-6">
-                <label for="price" class="form-label">Slug</label>
-                <input type="text" class="form-control" id="price" v-model="categories.slug" placeholder="Valor do curso" required />
+                <label for="slug" class="form-label">Slug</label>
+                <input type="text" class="form-control" id="slug" v-model="categories.slug" placeholder="Valor do curso" required />
               </div>
             </div>
   
@@ -49,10 +49,12 @@
   const categoryStore = useCategoryStore();
   
   const categories = ref({
+    id: 0,
     name: "",
     slug: "",
     description: "",
     is_active: 1,
+    category: null
   });
   
   const saveCategories = async () => {

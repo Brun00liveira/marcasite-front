@@ -42,8 +42,8 @@
           <button type="button" class="btn btn-danger mx-2 " data-bs-toggle="dropdown" aria-expanded="false">
             <i class="fa-solid fa-bars" style="margin-left: 0px;"></i> 
             <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="#">Excel</a></li>
-              <li><a class="dropdown-item" href="#">PDF</a></li>
+              <li><a class="dropdown-item" @click="extractExcel" href="#">Excel</a></li>
+              <li><a class="dropdown-item" @click="extractPDF" href="#">PDF</a></li>
             </ul>
           </button>
         </div>
@@ -54,7 +54,7 @@
         <tr style="background-color: #335992FF;">
           <th scope="col">Nome</th>
           <th scope="col">Status</th>
-          <th scope="col">Valor</th>
+          <th scope="col">Categoria</th>
           <th scope="col">Ações</th>
         </tr>
       </thead>
@@ -63,10 +63,12 @@
       :key="course.id">
         <tr>
           <td>{{course.title}}</td>
-          <td>{{course.is_active}}</td>
-          <td>{{course.price}}</td>
+          <td>{{ course.is_active === 1 ? 'Ativo' : 'Inativo' }}</td>
+
+
+          <td>{{course.category?.name}}</td>
           <td>
-            <i class="fa-solid fa-user text-dark"></i>
+            
             <i
               class="fa-solid fa-pencil text-success"
               style="cursor: pointer;"
@@ -140,6 +142,7 @@ import { useRoute, useRouter } from 'vue-router';
 import AddCourse from './modal/course/addCourse.vue';
 import EditCourse from './modal/course/editCourse.vue';
 import type { Courses } from '@/interfaces/CousesInterface';
+import type { Category } from '@/interfaces/CategoryInterface';
 
 // Obtenção da instância do roteador e da rota
 const route = useRoute();
@@ -148,7 +151,6 @@ const router = useRouter();
 // Estados para filtros
 const searchQuery = ref(route.query.search?.toString() || '');  // Inicializa com o valor de pesquisa da URL, se existir
 const selectedCategories = ref<number[]>(route.query.categories ? route.query.categories.toString().split(',').map(Number) : []);  // Pega as categorias da URL, se houver
-const selectedPrice = ref(Number(route.query.price) || 500);  // Inicializa o preço com o valor da URL, se existir
 
 // Armazenamento de cursos e categorias
 const userCourse = useCourseStore();
@@ -161,15 +163,15 @@ const selectedCourse = ref<Courses>({
   id: 0,
   title: '',
   category_id: 0,
-  price: 0,
   description: '',
+  category: null
 });
 
 const fetchCourses = async () => {
 
   const filters = {
     name: searchQuery.value,
-    price: selectedPrice.value,
+
     categories: selectedCategories.value,
   };
   await userCourse.findAllCourses(userCourse.currentPage, 6, filters);
@@ -180,7 +182,6 @@ const changePage = (pageNumber: number) => {
 
   if (pageNumber >= 1 && pageNumber <= userCourse.lastPage) {
     userCourse.findAllCourses(pageNumber, 6, {
-      price: selectedPrice.value,
       categories: selectedCategories.value,
       name: searchQuery.value,
     });
@@ -188,7 +189,7 @@ const changePage = (pageNumber: number) => {
 };
 
 // Monitoramento dos filtros (sempre que eles mudam, a busca é feita e a URL é atualizada)
-watch([selectedCategories, selectedPrice, searchQuery], () => {
+watch([selectedCategories, searchQuery], () => {
   fetchCourses();
 }, { immediate: true });
 
@@ -227,5 +228,23 @@ const clearFilter = () => {
   searchName.value = '';
   userCourse.findAllCourses(1, 5, { name: searchName.value });
 };
+
+const extractPDF = async () => {
+    try {
+        await userCourse.exportCourses();
+      
+    } catch (error) {
+        console.error('Erro ao exportar o PDF:', error);
+    }
+  };
+
+  const extractExcel = async () => {
+    try {
+        await userCourse.exportExcelCourses();
+      
+    } catch (error) {
+        console.error('Erro ao exportar o PDF:', error);
+    }
+  };
 
 </script>

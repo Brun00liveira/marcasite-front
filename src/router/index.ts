@@ -6,18 +6,22 @@ const routes = [
   {
     path: '/login',
     component: () => import('@/views/Auth/Login.vue'),
+    meta: { requiresAuth: false }
   },
   {
     path: '/create',
     component: () => import('@/views/Auth/Register.vue'),
+    meta: { requiresAuth: false }
   },
   {
     path: '/forgot-password',
     component: () => import('@/views/Auth/ForgotPassword.vue'),
+    meta: { requiresAuth: false }
   },
   {
     path: '/reset-password',
     component: () => import('@/views/Auth/ResetPassword.vue'),
+    meta: { requiresAuth: false }
   },
 
   {

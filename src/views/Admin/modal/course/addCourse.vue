@@ -24,10 +24,7 @@
                 <option v-for="category in categoryStore.category" :key="category.id" :value="category.id">{{ category.name }}</option>
               </select>
             </div>
-            <div class="col-md-4">
-              <label for="price" class="form-label">Valor</label>
-              <input type="text" class="form-control" id="price" v-model="course.price" placeholder="Valor do curso" required />
-            </div>
+          
           </div>
 
           <div class="row mb-3">
@@ -58,7 +55,6 @@ const course = ref({
   id: 0,
   title: "",
   description: "",
-  price: 0,
   photo: "", 
   is_active: 1,
   category_id: 0,

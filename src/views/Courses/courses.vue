@@ -71,25 +71,7 @@
           </label>
         </div>
 
-        <h5 class="text-dark mt-4">Preço</h5>
-        <div class="form-group">
-          <label for="priceRange" class="form-label">Preço</label>
-          <input
-            type="range"
-            class="form-range"
-            id="priceRange"
-            min="0"
-            max="1000"
-            step="10"
-            v-model="selectedPrice"
-            @mouseup="fetchCourses"
-          />
-          <div class="d-flex justify-content-between">
-            <span id="priceMin" class="text">R$ 0</span>
-            <span id="currentPrice" class="text">R$ {{ selectedPrice }}</span>
-            <span id="priceMax" class="text">R$ 1000</span>
-          </div>
-        </div>
+       
       </form>
       <h4 class="text-dark mt-4">Professores</h4>
 
@@ -141,7 +123,6 @@ const router = useRouter();
 // Estados para filtros
 const searchQuery = ref(route.query.search?.toString() || '');  // Inicializa com o valor de pesquisa da URL, se existir
 const selectedCategories = ref<number[]>(route.query.categories ? route.query.categories.toString().split(',').map(Number) : []);  // Pega as categorias da URL, se houver
-const selectedPrice = ref(Number(route.query.price) || 500);  // Inicializa o preço com o valor da URL, se existir
 
 // Armazenamento de cursos e categorias
 const userCourse = useCourseStore();
@@ -154,7 +135,6 @@ const totalPages = computed(() => userCourse.total);
 const fetchCourses = async () => {
   const filters = {
     name: searchQuery.value,  // Filtro por nome
-    price: selectedPrice.value,
     categories: selectedCategories.value,
   };
   await userCourse.findAllCourses(userCourse.currentPage, 6, filters);
@@ -164,7 +144,6 @@ const fetchCourses = async () => {
 const changePage = (pageNumber: number) => {
   if (pageNumber >= 1 && pageNumber <= userCourse.lastPage) {
     userCourse.findAllCourses(pageNumber, 6, {
-      price: selectedPrice.value,
       categories: selectedCategories.value,
       name: searchQuery.value,
     });
@@ -172,7 +151,7 @@ const changePage = (pageNumber: number) => {
 };
 
 // Monitoramento dos filtros (sempre que eles mudam, a busca é feita e a URL é atualizada)
-watch([selectedCategories, selectedPrice, searchQuery], () => {
+watch([selectedCategories, searchQuery], () => {
   fetchCourses();
 }, { immediate: true });
 

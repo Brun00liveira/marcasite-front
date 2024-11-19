@@ -46,20 +46,17 @@ export const useSubscriptionStore = defineStore('subscriptionStore', () => {
 
   async function exportSubscription() {
     try {
-        const pdfBlob = await ExportServices.subscriptionPdf(); // Chama o serviço e obtém o Blob (PDF)
+        const pdfBlob = await ExportServices.subscriptionPdf();
         
-        // Cria uma URL temporária para o Blob
         const url = window.URL.createObjectURL(pdfBlob);
         
-        // Cria um link (a) para disparar o download
         const a = document.createElement('a');
         a.href = url;
-        a.download = 'relatorio_inscricao.pdf'; // Nome do arquivo PDF
-        document.body.appendChild(a);  // Adiciona o link ao DOM
-        a.click();  // Simula o clique para fazer o download
-        a.remove();  // Remove o link após o clique
+        a.download = 'relatorio_inscricao.pdf';
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
 
-        // Limpa a URL temporária criada
         window.URL.revokeObjectURL(url);
     } catch (error) {
         console.error('Erro ao exportar o PDF:', error);
@@ -68,7 +65,7 @@ export const useSubscriptionStore = defineStore('subscriptionStore', () => {
 
   async function exportExcelSubscription() {
     try {
-        const excelBlob = await ExportServices.subscriptionExcel(); // Chama o serviço e obtém o Blob (Excel)
+        const excelBlob = await ExportServices.subscriptionExcel();
         
         const url = window.URL.createObjectURL(excelBlob);
         

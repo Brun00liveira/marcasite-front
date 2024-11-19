@@ -31,9 +31,10 @@ export const useAuthStore = defineStore('authStore', () => {
             }
     
             if (response.user) {
-                localStorage.setItem("auth_user", JSON.stringify(response.user));
+                sessionStorage.setItem("auth_user", JSON.stringify(response.user));
+                user.value = response.user
             }
-
+            
             showSuccessAlert("Conta logada com sucesso!", "/home");
         } catch (error) {
             if (error instanceof AxiosError) {
@@ -56,7 +57,7 @@ export const useAuthStore = defineStore('authStore', () => {
             }
 
             if (response.user) {
-                localStorage.setItem("auth_user", JSON.stringify(response.user));
+                sessionStorage.setItem("auth_user", JSON.stringify(response.user));
             }
             showSuccessAlert("Conta criada com sucesso!", "/home");
         } catch (error) {

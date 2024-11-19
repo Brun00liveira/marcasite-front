@@ -13,7 +13,7 @@ export const useUserStore = defineStore('userStore', () => {
   
   async function findUserById(): Promise<void> {
     try {
-      const authUser = localStorage.getItem('auth_user');
+      const authUser =sessionStorage.getItem("auth_user");
       
       if (authUser) {
         const parsedUser = JSON.parse(authUser);
@@ -36,8 +36,8 @@ export const useUserStore = defineStore('userStore', () => {
 
   async function updateUser(updateData: Register): Promise<void> {
     try {
-      const authUser = localStorage.getItem('auth_user');
-      
+      const authUser =sessionStorage.getItem("auth_user");
+ 
       if (authUser) {
         const parsedUser = JSON.parse(authUser);
         const id = parsedUser.id;

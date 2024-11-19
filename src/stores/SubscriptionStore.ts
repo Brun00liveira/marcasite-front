@@ -2,6 +2,7 @@ import { defineStore } from "pinia";
 import { ref } from "vue";
 import { useAlert } from "@/composables/UseAlert";
 import SubscriptionService from "@/services/SubscriptionService";
+import ExportServices from "@/services/ExportServices";
 import { type Subscription } from "@/interfaces/SubscriptionInterface";
 import { useRouter } from "vue-router";
 import router from "@/router";
@@ -29,7 +30,6 @@ export const useSubscriptionStore = defineStore('subscriptionStore', () => {
         perPage,
         name: filters.name
       };
-      console.log(queryFilters)
       const response = await SubscriptionService.findAll(queryFilters);
  
       subscriptions.value = response.data.data;
@@ -43,6 +43,29 @@ export const useSubscriptionStore = defineStore('subscriptionStore', () => {
       showErrorAlert('Failed to fetch courses');
     }
   }
+
+  async function exportSubscription() {
+    try {
+        const pdfBlob = await ExportServices.subscriptionPdf(); // Chama o serviço e obtém o Blob (PDF)
+        
+        // Cria uma URL temporária para o Blob
+        const url = window.URL.createObjectURL(pdfBlob);
+        
+        // Cria um link (a) para disparar o download
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'relatorio_inscricao.pdf'; // Nome do arquivo PDF
+        document.body.appendChild(a);  // Adiciona o link ao DOM
+        a.click();  // Simula o clique para fazer o download
+        a.remove();  // Remove o link após o clique
+
+        // Limpa a URL temporária criada
+        window.URL.revokeObjectURL(url);
+    } catch (error) {
+        console.error('Erro ao exportar o PDF:', error);
+    }
+}
+  
   return {
     subscriptions,
     total,
@@ -51,6 +74,7 @@ export const useSubscriptionStore = defineStore('subscriptionStore', () => {
     last_page,
     from,
     to,
-    findAllSubscription
+    findAllSubscription,
+    exportSubscription
   };
 });

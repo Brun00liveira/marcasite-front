@@ -43,7 +43,7 @@
                 <i class="fa-solid fa-bars" style="margin-left: 0px;"></i> 
                 <ul class="dropdown-menu">
                   <li><a class="dropdown-item" href="#">Excel</a></li>
-                  <li><a class="dropdown-item" href="#">PDF</a></li>
+                  <li><a class="dropdown-item" @click="extractPDF">PDF</a></li>
                 </ul>
               </button>
             </div>
@@ -121,6 +121,7 @@
   <script lang="ts" setup>
     import { ref, onMounted, watch, computed } from 'vue';
     import { useSubscriptionStore } from '@/stores/SubscriptionStore';
+
     const searchName = ref<string>('');
     const subscription = useSubscriptionStore();
 
@@ -133,6 +134,16 @@
   
       subscription.findAllSubscription(subscription.currentPage, 6, { name: searchName.value })
     };
+
+    const extractPDF = async () => {
+    try {
+        await subscription.exportSubscription();
+      
+    } catch (error) {
+        console.error('Erro ao exportar o PDF:', error);
+    }
+};
+
 
     const clearFilter = () => {
       searchName.value = '';

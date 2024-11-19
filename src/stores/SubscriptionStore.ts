@@ -11,6 +11,7 @@ export const useSubscriptionStore = defineStore('subscriptionStore', () => {
   const { showSuccessAlert, showErrorAlert } = useAlert();
 
   const subscriptions = ref<Subscription[]>([]);
+  const subscription = ref<Subscription[]>([]);
   const currentPage = ref<number>(1);
   const lastPage = ref<number>(1);
   const total = ref<number>(1);
@@ -24,14 +25,13 @@ export const useSubscriptionStore = defineStore('subscriptionStore', () => {
     filters: {name?: string} = {}
   ): Promise<void> {
     try {
-     
       const queryFilters: any = {
         page,
         perPage,
         name: filters.name
       };
       const response = await SubscriptionService.findAll(queryFilters);
- 
+      
       subscriptions.value = response.data.data;
       lastPage.value = response.data.last_page;
       last_page.value = response.data.last_page;
@@ -64,25 +64,37 @@ export const useSubscriptionStore = defineStore('subscriptionStore', () => {
     } catch (error) {
         console.error('Erro ao exportar o PDF:', error);
     }   
-}
-async function exportExcelSubscription() {
-  try {
-      const excelBlob = await ExportServices.subscriptionExcel(); // Chama o serviço e obtém o Blob (Excel)
-      
-      const url = window.URL.createObjectURL(excelBlob);
-      
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = 'relatorio_inscricao.xlsx';
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-
-      window.URL.revokeObjectURL(url);
-  } catch (error) {
-      console.error('Erro ao exportar o Excel:', error);
   }
-}
+
+  async function exportExcelSubscription() {
+    try {
+        const excelBlob = await ExportServices.subscriptionExcel(); // Chama o serviço e obtém o Blob (Excel)
+        
+        const url = window.URL.createObjectURL(excelBlob);
+        
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'relatorio_inscricao.xlsx';
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+
+        window.URL.revokeObjectURL(url);
+    } catch (error) {
+        console.error('Erro ao exportar o Excel:', error);
+    }
+  }
+
+  async function findByUserId() {
+    try {
+      const response = await SubscriptionService.findByUserId();
+      subscription.value = response.data;
+      console.log(subscription)
+    } catch (error) {
+      console.error('Erro ao buscar assinatura por usuário:', error);
+    }
+  }
+
   return {
     subscriptions,
     total,
@@ -91,9 +103,10 @@ async function exportExcelSubscription() {
     last_page,
     from,
     to,
+    subscription,
     findAllSubscription,
     exportSubscription,
-    exportExcelSubscription
-
+    exportExcelSubscription,
+    findByUserId, // Agora corretamente incluído no retorno
   };
 });

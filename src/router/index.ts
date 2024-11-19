@@ -43,6 +43,16 @@ const routes = [
         name: 'Courses',
         component: () => import('@/views/Courses/courses.vue'),
       },
+      {
+        path: 'plans',
+        name: 'Plans',
+        component: () => import('@/views/Plans/plans.vue'),
+      },
+      {
+        path: 'plans-confirmed',
+        name: 'PlansConfirmed',
+        component: () => import('@/views/Plans/confirmation.vue'),
+      },
     ],
   },
 

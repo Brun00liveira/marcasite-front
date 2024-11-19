@@ -1,4 +1,5 @@
 import {type Customer } from "./CustomerInterface";
+import type { Plan } from "./PlanInterface";
 import {type User } from "./UserInterface";
 
 export interface Subscription {
@@ -13,6 +14,7 @@ export interface Subscription {
     created_at: string;
     updated_at: string;
     customer: Customer;
+    plan: Plan
   }
   
   export interface ApiSubscribeResponse {
@@ -37,6 +39,11 @@ export interface Subscription {
       total: number;
     };
   }
+    export interface ApiSubscribeUserResponse {
+      message: string,
+      data: Subscription[]
+    }
+
   
 
 

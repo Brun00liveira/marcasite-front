@@ -1,5 +1,14 @@
 <template>
     <div class="mx-5">
+        <div class="alert alert-danger d-flex justify-content-between align-items-center" role="alert">
+        <div>
+            <strong>Atenção!</strong> Para continuar, é necessário comprar nosso plano pacote com todos os cursos.
+        </div>
+        <router-link to="/plans-confirmed">
+         <button class="btn btn-outline-danger">Comprar Plano</button>
+        </router-link>
+    </div>
+
         <div class="row align-items-center">
             <div class="col-12 col-md-8 col-lg-6">
             <h1 class="text">Garanta seu Futuro com os cursos da <strong class="emphasis">MarcaSite Cursos!</strong> </h1>

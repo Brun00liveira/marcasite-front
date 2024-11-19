@@ -30,8 +30,9 @@ export const useUserStore = defineStore('userStore', () => {
         perPage,
         name: filters.name
       };
+ 
       const response = await UserService.findAll(queryFilters);
-
+      console.log(response)
       users.value = response.data.data;
       lastPage.value = response.data.last_page;
       last_page.value = response.data.last_page;

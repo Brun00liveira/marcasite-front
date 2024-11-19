@@ -162,8 +162,8 @@ import EditUser from './modal/user/editUser.vue';
     });
 
     const filterCoursesByName = () => {
-  
-      userStore.findAll(userStore.currentPage, 6, { name: searchName.value })
+     const response = userStore.findAll(userStore.currentPage, 6, { name: searchName.value })
+
     };
 
   const extractPDF = async () => {
@@ -201,8 +201,6 @@ import EditUser from './modal/user/editUser.vue';
     };
 
     const fetchUsers = async () => {
-
-
       await userStore.findAll(userStore.currentPage, 6)
     };
 

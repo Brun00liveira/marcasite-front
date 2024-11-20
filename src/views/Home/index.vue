@@ -1,10 +1,10 @@
 <template>
     <div class="mx-5">
-        <div class="alert alert-danger d-flex justify-content-between align-items-center" role="alert">
+        <div v-if="!subscriptionStore.subscription['0']?.plan" class="alert alert-danger d-flex justify-content-between align-items-center" role="alert">
         <div>
             <strong>Atenção!</strong> Para continuar, é necessário comprar nosso plano pacote com todos os cursos.
         </div>
-        <router-link to="/plans-confirmed">
+        <router-link to="/plans">
          <button class="btn btn-outline-danger">Comprar Plano</button>
         </router-link>
     </div>
@@ -54,10 +54,12 @@
 import { ref, onMounted } from 'vue';
 import { useCourseStore } from '@/stores/CourseStore';
 import { useRouter } from 'vue-router';
+import { useSubscriptionStore } from "@/stores/SubscriptionStore";
 
 const searchQuery = ref<string>('');
 const router = useRouter();
 const userCourse = useCourseStore();
+const subscriptionStore = useSubscriptionStore();
 
 const searchCourses = async () => {
   router.push({ path: '/courses', query: { search: searchQuery.value } });
@@ -65,5 +67,7 @@ const searchCourses = async () => {
 
 onMounted(async () => {
   await userCourse.findAllCourses(1, 10);
+  subscriptionStore.findByUserId();
 });
 </script>
+

@@ -36,7 +36,7 @@
           </li>
   
           <li>
-            <router-link to="/plans-confirmed" class="nav-link px-0 align-middle mb-2">
+            <router-link v-if="subscriptionStore.subscription['0']?.plan" to="/plans-confirmed" class="nav-link px-0 align-middle mb-2">
               <i class="fa-solid fa-dollar" style="margin-right: 8px;"></i>
               <span class="ms-1 d-sm-inline">Planos</span>
             </router-link>
@@ -84,15 +84,18 @@
   </template>
 <script setup lang="ts">
     import { ref } from "vue";
-
+    import { onMounted } from "vue";
+    import { useSubscriptionStore } from "@/stores/SubscriptionStore";
+  
     const authUser = ref(JSON.parse(sessionStorage.getItem("auth_user") || "{}"));
-
-    function logout() {
-    sessionStorage.removeItem("auth_user"); // Limpa o auth_user ao sair
-    // Redireciona para a página de login ou home, conforme necessário
-    window.location.href = "/login"; // Ajuste o caminho conforme seu projeto
-    }
+   
+  // Acesso ao store
+  const subscriptionStore = useSubscriptionStore();
+  
+  onMounted(() => {
+    subscriptionStore.findByUserId(); // Chama o método do store para buscar a assinatura
+  });
+    
 </script>
-
 
   

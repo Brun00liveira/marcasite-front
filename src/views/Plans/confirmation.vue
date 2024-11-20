@@ -32,16 +32,16 @@
 
               <p>Status de Pagamento: CONFIRMED</p>
               <p>
-  <span
-    :class="{
-      'badge badge-warning text': subscriptionStore.subscription[0].status == 'PAYMENT_CREATED',
-      'badge badge-success text': subscriptionStore.subscription[0].status == 'PAYMENT_RECEIVED'
-    }"
-    class="px-3 py-2 rounded-pill"
-  >
-    Status de Confirmação: {{ subscriptionStore.subscription[0].status }}
-  </span>
-</p>
+                <span
+                  :class="{
+                    'badge badge-warning text': subscriptionStore.subscription[0].status == 'PAYMENT_CREATED',
+                    'badge badge-success text': subscriptionStore.subscription[0].status == 'PAYMENT_RECEIVED'
+                  }"
+                  class="px-3 py-2 rounded-pill"
+                >
+                  Status de Confirmação: {{ subscriptionStore.subscription[0].status }}
+                </span>
+              </p>
 
               <p>Data de Vencimento: {{ subscriptionStore.subscription['0'].due_date }}</p>
             </div>

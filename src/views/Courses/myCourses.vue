@@ -11,8 +11,8 @@
             <!-- Mantendo a imagem padrão se não houver imagem do curso -->
             <img src="/images/Home/notebook.png" class="card-img-top" alt="Curso imagem">
             <div class="card-body">
-              <h5 class="card-title">{{ enrollment.course.title }}</h5>
-              <p class="card-text">{{ enrollment.course.description }}</p>
+              <h5 class="card-title">{{ enrollment.course?.title }}</h5>
+              <p class="card-text">{{ enrollment.course?.description }}</p>
               <p class="card-text">
                 <small class="text-muted">Progresso: {{ enrollment.progress }}%</small>
               </p>
@@ -25,11 +25,11 @@
                 <div class="modal-dialog">
                   <div class="modal-content">
                     <div class="modal-header">
-                      <h1 class="modal-title fs-5">{{ enrollment.course.title }}</h1>
+                      <h1 class="modal-title fs-5">{{ enrollment.course?.title }}</h1>
                       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                      <p>{{ enrollment.course.description }}</p>
+                      <p>{{ enrollment.course?.description }}</p>
                       <p>Status: {{ enrollment.status }}</p>
                       <p>Inscrito em: {{ new Date(enrollment.enrolled_at).toLocaleDateString() }}</p>
                       <p>Progresso: {{ enrollment.progress }}%</p>

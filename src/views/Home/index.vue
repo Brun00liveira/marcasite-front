@@ -41,7 +41,6 @@
                         <div class="card-body">
                             <h5 class="card-title">{{ course.title }}</h5>
                             <p class="card-text">{{ course.description }}</p>
-                            <a :href="`/courses/${course.id}`" class="btn btn-primary">Saiba mais</a>
                         </div>
                     </div>
                 </div>

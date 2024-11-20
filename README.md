@@ -1,20 +1,21 @@
-# MarcaSiteCursos
+## MarcaSite Curso
 
-This template should help get you started developing with Vue 3 in Vite.
+O Front do projeto Marcasite Cursos é um sistema de gerenciamento de inscrições para cursos, desenvolvido em VueJs, Pinia e Typescript. O objetivo deste projeto é criar uma plataforma que permite gerenciar inscrições de alunos, integrar pagamentos online e fornecer um painel administrativo para controle e gestão de inscritos.
 
-## Recommended IDE Setup
+## Visão Geral do Projeto
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+- Inscrição de Alunos: </br>
+Informações dos alunos no momento da inscrição, com diferenciação de valores por curso.
+- Integração com Gateway de Pagamento: </br>
+ Implementação de um gateway de pagamento do Asaas com SandBox
+- Área Administrativa: </br>
+&nbsp; &nbsp; Listagem de Inscritos, </br>
+&nbsp; &nbsp; Filtragem de dados e paginação, </br>
+&nbsp; &nbsp; Edição e Exclusão de Registros, </br>
+&nbsp; &nbsp; Exportação de Dados</br>
 
-## Type Support for `.vue` Imports in TS
-
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vite.dev/config/).
-
-## Project Setup
+- Segurança e Controle de Acesso:</br>
+## Instalação
 
 ```sh
 npm install

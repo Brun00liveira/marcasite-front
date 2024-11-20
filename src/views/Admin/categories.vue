@@ -10,13 +10,7 @@
         <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addCategoryModal">
           Adicionar
         </button>
-        <button type="button" class="btn btn-danger mx-2" data-bs-toggle="dropdown" aria-expanded="false">
-          <i class="fa-solid fa-bars" style="margin-left: 0px;"></i>
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#">Excel</a></li>
-            <li><a class="dropdown-item" href="#">PDF</a></li>
-          </ul>
-        </button>
+       
       </div>
     </div>
 

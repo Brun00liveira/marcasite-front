@@ -35,7 +35,7 @@ export const useAuthStore = defineStore('authStore', () => {
                 user.value = response.user
             }
             
-            showSuccessAlert("Conta logada com sucesso!", "/home");
+            showSuccessAlert("Conta logada com sucesso!", "/admin/dashboard");
         } catch (error) {
             if (error instanceof AxiosError) {
                 const errorMessage = error.response?.data?.message || "Erro ao logar. Tente novamente.";
@@ -59,7 +59,8 @@ export const useAuthStore = defineStore('authStore', () => {
             if (response.user) {
                 sessionStorage.setItem("auth_user", JSON.stringify(response.user));
             }
-            showSuccessAlert("Conta criada com sucesso!", "/home");
+            showSuccessAlert("Conta criada com sucesso!", "/admin/dashboard");
+         
         } catch (error) {
             if (error instanceof AxiosError) {
                 const errors = error.response?.data.errors || {};

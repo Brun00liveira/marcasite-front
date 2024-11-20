@@ -58,7 +58,7 @@ export const useCategoryStore= defineStore('categoryStore', () => {
       
           await CategoryService.update(id, updateData);
 
-          showSuccessAlert("Perfil atualizado com sucesso!", "/home");
+          showSuccessAlert("Perfil atualizado com sucesso!", "/admin/dashboard");
           setTimeout(() => {
           router.go(0);
         }, 1000);

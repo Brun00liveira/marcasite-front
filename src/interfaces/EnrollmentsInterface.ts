@@ -3,15 +3,15 @@ import type { Courses } from "./CousesInterface";
   
   
   export interface Enrollment {
-    id: number;
+    id?: number;
     course_id: number;
     user_id: number;
     status: string;
     enrolled_at: string;
     completed_at?: string | null;
     progress: number;
-    user: User;
-    course: Courses;
+    user?: User | null;
+    course?: Courses | null;
   }
   
   export interface ApiEnrollmentResponse {
@@ -19,4 +19,10 @@ import type { Courses } from "./CousesInterface";
       data: Enrollment[]
     
   } 
+
+  export interface enrollmentResponse {
+    
+    data: Enrollment
+  
+} 
   

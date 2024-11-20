@@ -86,7 +86,7 @@ export const useCourseStore = defineStore('courseStore', () => {
      
         await CourseService.update(id, updateData);
 
-        showSuccessAlert("Perfil atualizado com sucesso!", "/home");
+        showSuccessAlert("Perfil atualizado com sucesso!", "/admin/dashboard");
          setTimeout(() => {
         router.go(0);
       }, 1000);

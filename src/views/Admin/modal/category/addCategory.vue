@@ -1,5 +1,6 @@
 <template>
-    <div class="modal fade modal-lg" id="addCategoryModal" tabindex="-1" aria-labelledby="addCategoryModalLabel" aria-hidden="true">
+    <div class="modal fade modal-lg" id="addCategoryModal" tabindex="-1" aria-labelledby="addCategoryModalLabel" aria-hidden="true"data-bs-backdrop="static" 
+    data-bs-keyboard="false" >
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">

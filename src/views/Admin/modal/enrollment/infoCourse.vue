@@ -1,9 +1,9 @@
 <template>
   <div
     class="modal fade modal-lg"
-    id="editCourseModal"
+    id="addEnrollmentModal"
     tabindex="-1"
-    aria-labelledby="editCourseModalLabel"
+    aria-labelledby="addEnrollmentModalLabel"
     aria-hidden="true"
     data-bs-backdrop="static" 
   data-bs-keyboard="false"
@@ -11,7 +11,7 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h1 class="modal-title fs-5 text" id="editCourseModalLabel">Editar Curso</h1>
+          <h1 class="modal-title fs-5 text" id="addEnrollmentModalLabel">Editar Curso</h1>
           <button
             type="button"
             class="btn-close"
@@ -37,42 +37,11 @@
                 v-model="course.title"
                 placeholder="Título do curso"
                 required
+                disabled
               />
             </div>
-            <div class="col-md-4">
-              <label for="category" class="form-label">Categoria</label>
-              <select
-                class="form-select"
-                id="category"
-                v-model="course.category_id"
-                aria-label="Categoria"
-                required
-              >
-                <option selected disabled>Escolha uma categoria</option>
-                <option
-                  v-for="category in categories"
-                  :key="category.id"
-                  :value="category.id"
-                >
-                  {{ category.name }}
-                </option>
-              </select>
-            </div>
-            <div class="col-md-4">
-              <label for="is_active" class="form-label">Status</label>
-              <select
-                class="form-control"
-                id="is_active"
-                v-model="course.is_active"
-                required
-              >
-                <option value="1">Ativo</option>
-                <option value="0">Inativo</option>
-              </select>
-            </div>
-
+          
           </div>
-
           <div class="row mb-3">
             <div class="col-md-12 mt-2">
               <label for="description" class="form-label">Descrição</label>
@@ -82,13 +51,14 @@
                 v-model="course.description"
                 rows="3"
                 required
+                disabled
               ></textarea>
             </div>
           </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-          <button type="button" class="btn btn-primary" @click="updateCourse">Salvar alterações</button>
+          <button type="button" class="btn btn-primary" @click="createEnrollment">Se inscreva!</button>
 
         </div>
       </div>
@@ -105,6 +75,8 @@ import { defineProps } from 'vue';
 import { useCategoryStore } from '@/stores/CategoryStore';
 import CourseService from '@/services/CourseService';
 import { useCourseStore } from '@/stores/CourseStore';
+import EnrollmentService from '@/services/EnrollmentService';
+import { useEnrollmentStore } from '@/stores/EnrollmentStore';
 
 const props = defineProps<{
   course: Courses;
@@ -115,6 +87,7 @@ const editedCourse = ref<Courses>({ ...props.course });
 
 // Usar Pinia para obter categorias
 const categoryStore = useCategoryStore();
+const enrollmentStore = useEnrollmentStore();
 const courseStore = useCourseStore();
 const categories = ref<Category[]>([]);
 
@@ -124,19 +97,45 @@ onMounted(async () => {
   categories.value = categoryStore.category;
 });
 
+
+
+//conmtinuar aqui, e colocar array user_id
 // Função para atualizar o curso
-const updateCourse = async () => {
+const createEnrollment = async () => {
   try {
-
     if (props.course.id) {
-      // Enviar os dados atualizados para o backend
-      await courseStore.updateCourse(props.course.id, props.course);
+      // Recupera o usuário autenticado do sessionStorage
+      const authUser = sessionStorage.getItem("auth_user");
+      let userId = null;
 
+      if (authUser) {
+        const parsedUser = JSON.parse(authUser);
+        userId = parsedUser.id; // Garante que userId esteja acessível fora do bloco
+      }
+
+      if (!userId) {
+        throw new Error("Usuário não autenticado ou ID inválido.");
+      }
+
+      // Obter a data atual no formato ISO
+      const currentDate = new Date().toISOString();
+  
+      // Enviar os dados atualizados para o backend
+      await enrollmentStore.createEnrollment({
+        user_id: userId,
+        course_id: props.course.id,
+        enrolled_at: currentDate,
+        status: 'active',
+        progress: 0,
+        completed_at: null,
+      });
+
+      console.log("Matrícula criada com sucesso!");
     }
   } catch (error) {
-
-    console.error(error);
+    console.error("Erro ao criar matrícula:", error);
   }
 };
+
 </script>
 

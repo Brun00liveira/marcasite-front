@@ -29,7 +29,7 @@ import footerSide from '@/views/Layouts/footerSide.vue';
 
 .main-content {
   margin-top: 45px;
-  margin-left: 170px;
+  margin-left: 160px;
   flex-grow: 1;
 }
 

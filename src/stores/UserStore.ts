@@ -32,7 +32,7 @@ export const useUserStore = defineStore('userStore', () => {
       };
  
       const response = await UserService.findAll(queryFilters);
-      console.log(response)
+  
       users.value = response.data.data;
       lastPage.value = response.data.last_page;
       last_page.value = response.data.last_page;
@@ -107,7 +107,7 @@ export const useUserStore = defineStore('userStore', () => {
 
         await UserService.update(id, updateData);
 
-        showSuccessAlert("Perfil atualizado com sucesso!", "/home");
+        showSuccessAlert("Perfil atualizado com sucesso!", "/admin/dashboard");
       } else {
         showErrorAlert('Erro: Usuário não autenticado');
       }

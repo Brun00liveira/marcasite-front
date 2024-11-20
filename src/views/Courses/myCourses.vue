@@ -19,7 +19,9 @@
               <button type="button" class="btn btn-primary" data-bs-toggle="modal" :data-bs-target="'#modal' + enrollment.id">Detalhes</button>
 
               <!-- Modal para exibir mais informações -->
-              <div class="modal fade" :id="'modal' + enrollment.id" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal fade" :id="'modal' + enrollment.id" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
+              data-bs-backdrop="static" 
+  data-bs-keyboard="false">
                 <div class="modal-dialog">
                   <div class="modal-content">
                     <div class="modal-header">

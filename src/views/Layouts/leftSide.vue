@@ -73,18 +73,8 @@
               <span class="ms-1 d-sm-inline">Categorias</span>
             </router-link>
           </li>
-          <li>
-            <router-link to="/courses" class="nav-link align-middle px-0 mb-2">
-              <i class="fa-solid fa-gear" style="margin-right: 8px;"></i>
-              <span class="ms-1 d-sm-inline">Configuração</span>
-            </router-link>
-          </li>
-          <li>
-            <a href="#" @click="logout" class="nav-link px-0 align-middle">
-                <i class="fa-solid fa-door-open"></i>
-                <span class="ms-1 d-sm-inline">Sair</span>
-            </a>
-          </li>
+         
+          
          
         </ul>
       </div>

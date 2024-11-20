@@ -25,7 +25,26 @@
             <div class="card-body">
               <h5 class="card-title">{{ course.title }}</h5>
               <p class="card-text">{{ course.description }}</p>
-              <a :href="`/courses/${course.id}`" class="btn btn-primary">Saiba mais</a>
+              <button 
+                v-if="!isCoursePurchased(course.id)" 
+                type="button" 
+                class="btn btn-success" 
+                data-bs-toggle="modal" 
+                @click="editCourse(course.id)" 
+                data-bs-target="#addEnrollmentModal"
+              >
+                Adicionar Curso
+              </button>
+              <button 
+                v-else 
+                type="button" 
+                class="btn btn-secondary" 
+                disabled
+              >
+                Curso já comprado
+              </button>
+
+           
             </div>
           </div>
         </div>
@@ -107,18 +126,46 @@
       </form>
     </div>
   </div>
+  <InfoCourse :course="selectedCourse"/>
+
 </template>
 
 
 <script lang="ts" setup>
 import { ref, onMounted, watch, computed } from 'vue';
-import { useCourseStore } from '@/stores/CourseStore';
+import { useEnrollmentStore } from '@/stores/EnrollmentStore';
 import { useCategoryStore } from '@/stores/CategoryStore';
 import { useRoute, useRouter } from 'vue-router';
+import InfoCourse from '../Admin/modal/enrollment/infoCourse.vue';
+import type { Enrollment } from '@/interfaces/EnrollmentsInterface';
+import { useCourseStore } from '@/stores/CourseStore';
+import type { Courses } from '@/interfaces/CousesInterface';
 
 // Obtenção da instância do roteador e da rota
 const route = useRoute();
 const router = useRouter();
+const enrollmentStore = useEnrollmentStore();
+console.log(enrollmentStore.enrollments)
+const selectedCourse = ref<Courses>({
+  id: 0,
+  title: '',
+  category_id: 0,
+  description: '',
+  category: null
+});
+
+const editCourse = async (courseId: number) => {
+  try {
+    await userCourse.findById(courseId);
+
+    if (userCourse.course) {
+      selectedCourse.value = userCourse.course; 
+    }
+  } catch (error) {
+    console.error('Erro ao buscar o curso', error);
+  }
+};
+
 
 // Estados para filtros
 const searchQuery = ref(route.query.search?.toString() || '');  // Inicializa com o valor de pesquisa da URL, se existir
@@ -140,6 +187,14 @@ const fetchCourses = async () => {
   await userCourse.findAllCourses(userCourse.currentPage, 6, filters);
 };
 
+const isCoursePurchased = (courseId: number): boolean => {
+
+  return enrollmentStore.enrollments.some(
+    (enrollment: Enrollment) => enrollment.course_id === courseId
+  );
+};
+
+
 // Função para alterar a página
 const changePage = (pageNumber: number) => {
   if (pageNumber >= 1 && pageNumber <= userCourse.lastPage) {
@@ -158,7 +213,8 @@ watch([selectedCategories, searchQuery], () => {
 // Carregar categorias ao montar o componente
 onMounted(async () => {
   await categoryStore.findAllCategory();
-  await fetchCourses();  // Carrega os cursos inicialmente
+  await enrollmentStore.enrollmentsByUserId();
+  await fetchCourses();  
 });
 
 const handleSearch = async () => {

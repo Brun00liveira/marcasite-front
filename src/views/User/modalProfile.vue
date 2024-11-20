@@ -1,5 +1,6 @@
 <template>
-    <div class="modal fade modal-lg" id="perfilModal" tabindex="-1" aria-labelledby="perfilModalLabel" aria-hidden="true">
+    <div class="modal fade modal-lg" id="perfilModal" tabindex="-1" aria-labelledby="perfilModalLabel" aria-hidden="true" data-bs-backdrop="static" 
+    data-bs-keyboard="false">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -87,6 +88,7 @@ import { onMounted, ref } from 'vue';
 import { useUserStore } from '@/stores/UserStore';
 
 const registerData = ref({
+  id: 0,
   name: '',
   email: '',
   phone: '',

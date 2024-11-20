@@ -13,7 +13,7 @@
             <div class="col-12 col-md-8 col-lg-6">
             <h1 class="text">Garanta seu Futuro com os cursos da <strong class="emphasis">MarcaSite Cursos!</strong> </h1>
             
-            <div class="mt-5">
+            <div class="mt-5" v-if="subscriptionStore.subscription['0']?.status == 'PAYMENT_RECEIVED'">
                 <form @submit.prevent="searchCourses" class="d-flex" role="search">
                 <input
                     v-model="searchQuery"
@@ -30,7 +30,7 @@
             <img src="/images/Home/notebook.png" alt="Imagem de Login" class="img-fluid w-100 h-100 rounded">
             </div>
         </div>
-        <div class="row align-items-center">
+        <div class="row align-items-center" v-if="subscriptionStore.subscription['0']?.status == 'PAYMENT_RECEIVED'">
             <h1 class="text topic">Ultimos Lançamentos </h1>
             <!-- Cards Responsivos -->
             <div class="row mt-5">

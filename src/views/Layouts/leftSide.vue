@@ -15,14 +15,18 @@
           </li>
   
           <li>
-            <router-link to="/my-courses" class="nav-link align-middle px-0 mb-2">
+            <router-link 
+              v-if="subscriptionStore.subscription['0']?.status == 'PAYMENT_RECEIVED'" 
+              to="/my-courses" 
+              class="nav-link align-middle px-0 mb-2">
               <i class="fa-solid fa-chalkboard-user" style="margin-right: 10px;"></i>
-              <span class=" d-sm-inline">Meus Cursos</span>
+              <span class="d-sm-inline">Meus Cursos</span>
             </router-link>
           </li>
+
   
           <li>
-            <router-link to="/courses" class="nav-link align-middle px-0 mb-2">
+            <router-link    v-if="subscriptionStore.subscription['0']?.status == 'PAYMENT_RECEIVED'"  to="/courses" class="nav-link align-middle px-0 mb-2">
               <i class="fa-solid fa-magnifying-glass" style="margin-right: 8px;"></i>
               <span class="ms-1 d-sm-inline">Explorar Cursos</span>
             </router-link>
@@ -36,7 +40,7 @@
           </li>
   
           <li>
-            <router-link v-if="subscriptionStore.subscription['0']?.plan" to="/plans-confirmed" class="nav-link px-0 align-middle mb-2">
+            <router-link   v-if="subscriptionStore.subscription['0']?.plan"  to="/plans-confirmed" class="nav-link px-0 align-middle mb-2">
               <i class="fa-solid fa-dollar" style="margin-right: 8px;"></i>
               <span class="ms-1 d-sm-inline">Planos</span>
             </router-link>

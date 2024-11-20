@@ -22,7 +22,8 @@
         <ul class="navbar-nav ms-auto align-items-center">
           <!-- Campo de Busca -->
          
-          <div class="nav-item" v-if="authUser.role == 'user'">
+          <div class="nav-item" v-if="authUser.role == 'user' && subscriptionStore.subscription['0']?.status == 'PAYMENT_RECEIVED'">
+
                 <form @submit.prevent="searchCourses" class="d-flex mx-5" role="search">
                 <input
                     v-model="searchQuery"
@@ -62,10 +63,12 @@ import modalProfile from '@/views/User/modalProfile.vue';
 import { useAuthStore } from "@/stores/AuthStore";
 import { useRouter } from 'vue-router';
 import { ref } from 'vue';
+import { onMounted } from "vue";
+import { useSubscriptionStore } from "@/stores/SubscriptionStore";
 
 const searchQuery = ref<string>('');
   const authUser = ref(JSON.parse(sessionStorage.getItem("auth_user") || "{}"));
-
+  const subscriptionStore = useSubscriptionStore();
   const router = useRouter();
 
 const searchCourses = async () => {
@@ -77,5 +80,10 @@ const authStore = useAuthStore();
 function logout() {
     authStore.logout();
 }
+
+onMounted(() => {
+    subscriptionStore.findByUserId(); // Chama o método do store para buscar a assinatura
+  });
+
 </script>
 

@@ -1,4 +1,5 @@
 ## MarcaSite Curso
+Cada processo que eu fiz foi feito em Branchs diferentes e quando finalizava eu mergei com a Main,para o caso queira ver algo especifico.</br>
 
 O Front do projeto Marcasite Cursos é um sistema de gerenciamento de inscrições para cursos, desenvolvido em VueJs, Pinia e Typescript. O objetivo deste projeto é criar uma plataforma que permite gerenciar inscrições de alunos, integrar pagamentos online e fornecer um painel administrativo para controle e gestão de inscritos.
 
